@@ -35,7 +35,6 @@ namespace ZeroUIFrame
         #region [Click]
         protected void OnPointerDown(string uiName, Callback func, params object[] args)
         {
-            Debug.Log("asdas");
             UIButton button = null;
             Transform ui = null;
             if (!_TryGetChildUI(uiName, ref ui)) return;
@@ -261,7 +260,6 @@ namespace ZeroUIFrame
         private bool _TryGetChildUI(string uiName, ref Transform childUI)
         {
             childUI = transform.Find(uiName);
-            Debug.Log(transform.name);
             if (childUI == null)
             {
                 Debug.LogError(string.Format("{0}: uiName: {1} 不存在!", transform.name, uiName));

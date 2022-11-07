@@ -25,7 +25,6 @@ public class test : UIBehavior
 
         var eventData = args[1] as PointerEventData;
 
-        Debug.Log($"arg0 {arg0}  arg {arg1}  OnPointerDown {eventData.position}");
     }
 
     // Update is called once per frame
@@ -33,7 +32,6 @@ public class test : UIBehavior
     {
         if (button.IsPressing)
         {
-            Debug.Log("button.IsPressing");
         }
     }
 }
