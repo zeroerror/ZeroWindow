@@ -77,7 +77,7 @@ namespace ZeroWindow {
             eventSystem.transform.SetParent(root.transform, false);
         }
 
-        public void PushToCanvas(WindowBase window, string layerName) {
+        public void PushToCanvas(WindowEntity window, string layerName) {
             Canvas canvas = window.GetComponent<Canvas>();
 
             var windowName = window.name;

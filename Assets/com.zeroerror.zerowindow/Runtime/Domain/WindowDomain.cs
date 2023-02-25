@@ -13,7 +13,7 @@ namespace ZeroWindow {
             this.context = context;
         }
 
-        public WindowBase Show(string windowName, string layerName, params object[] args) {
+        public WindowEntity Show(string windowName, string layerName, params object[] args) {
             var repo = context.Repo;
             if (!repo.TryGet(windowName, out var window)) {
                 window = context.Factory.CreateWindow(windowName);
@@ -71,67 +71,6 @@ namespace ZeroWindow {
 
         #region [Slider]
 
-        public void Slider_SetVal(GameObject windowGO, string path, float val) {
-            Slider slider = null;
-            if (!_CheckComponent<Slider>(windowGO, path, ref slider)) {
-                Debug.LogWarning(windowGO.name + ": " + path + ": Slider Component Not Found!");
-                return;
-            };
-
-            slider.value = val;
-        }
-
-        #endregion
-
-        #region [Click]
-
-        public void OnPointerDown(GameObject windowGO, string path, Callback func, params object[] args) {
-            UIButton button = null;
-            Transform ui = null;
-            if (!_TryGetChildWindow(windowGO, path, ref ui)) return;
-
-            if (!_CheckComponent<UIButton>(windowGO, path, ref button)) {
-                ui.gameObject.AddComponent<UIButton>();
-            }
-
-            button = ui.gameObject.GetComponent<UIButton>();
-            button.OnPointerDown_Clear();
-            button.OnPointerDown((eventData) => {
-                func?.Invoke(args, eventData);
-            });
-        }
-
-        public void OnPointerUp(GameObject windowGO, string path, Callback func, params object[] args) {
-            UIButton button = null;
-            Transform ui = null;
-            if (!_TryGetChildWindow(windowGO, path, ref ui)) return;
-
-            if (!_CheckComponent<UIButton>(windowGO, path, ref button)) {
-                ui.gameObject.AddComponent<UIButton>();
-            }
-
-            button = ui.gameObject.GetComponent<UIButton>();
-            button.OnPointerUp_Clear();
-            button.OnPointerUp((eventData) => {
-                func?.Invoke(args, eventData);
-            });
-        }
-
-        public void OnPointerDrag(GameObject windowGO, string path, Callback func, params object[] args) {
-            UIButton button = null;
-            Transform ui = null;
-            if (!_TryGetChildWindow(windowGO, path, ref ui)) return;
-
-            if (!_CheckComponent<UIButton>(windowGO, path, ref button)) {
-                ui.gameObject.AddComponent<UIButton>();
-            }
-
-            button = ui.gameObject.GetComponent<UIButton>();
-            button.OnPointerDrag_Clear();
-            button.OnPointerDrag((eventData) => {
-                func?.Invoke(args, eventData);
-            });
-        }
 
         #endregion
 
@@ -233,44 +172,10 @@ namespace ZeroWindow {
         }
         #endregion
 
-        #region [Window]
-
-        public bool TryAddChildWindow(GameObject windowGO, string path, GameObject addChildWindow) {
-            if (addChildWindow == null) {
-                Debug.LogWarning(windowGO.name + ": AddChildWindow Failed! 不存在Window " + addChildWindow.name);
-                return false;
-            }
-
-            string childName = addChildWindow.name;
-            addChildWindow = GameObject.Instantiate(addChildWindow, windowGO.transform.Find(path));
-            addChildWindow.name = childName;
-            return true;
-        }
-
-        public void SetActive(GameObject windowGO, string childName, bool isActive) {
-            Transform childWindow = null;
-            if (!_TryGetChildWindow(windowGO, childName, ref childWindow)) {
-                Debug.LogWarning(string.Format("{0}: childWindow: {1} 不存在！", windowGO.name, childName));
-                return;
-            }
-
-            childWindow.gameObject.SetActive(isActive);
-        }
-
-        #endregion
-
-        #region [Common]
-
-        public T GetComponentFromChild<T>(GameObject windowGO, string name) where T : Component {
-            return windowGO.transform.Find(name).GetComponent<T>();
-        }
-
-        #endregion
-
         bool _CheckComponent<T>(GameObject windowGO, string path, ref T component) {
             Transform ui = null;
             if (path == windowGO.transform.name) ui = windowGO.transform;
-            else _TryGetChildWindow(windowGO, path, ref ui);
+            else TryGetChild(windowGO, path, ref ui);
             if (ui == null) return false;
 
             component = ui.GetComponent<T>();
@@ -280,7 +185,7 @@ namespace ZeroWindow {
             return component != null;
         }
 
-        bool _TryGetChildWindow(GameObject windowGO, string path, ref Transform childWindow) {
+        bool TryGetChild(GameObject windowGO, string path, ref Transform childWindow) {
             childWindow = windowGO.transform.Find(path);
             if (childWindow == null) {
                 return false;

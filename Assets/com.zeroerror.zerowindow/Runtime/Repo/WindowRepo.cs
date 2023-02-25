@@ -6,13 +6,13 @@ namespace ZeroWindow {
 
     public class WindowRepo {
 
-        Dictionary<string, WindowBase> all;
+        Dictionary<string, WindowEntity> all;
 
         public WindowRepo() {
-            all = new Dictionary<string, WindowBase>();
+            all = new Dictionary<string, WindowEntity>();
         }
 
-        public void Add(WindowBase window) {
+        public void Add(WindowEntity window) {
             all.Add(window.WindowName, window);
         }
 
@@ -24,11 +24,11 @@ namespace ZeroWindow {
             all.Clear();
         }
 
-        public bool TryGet(string uiName, out WindowBase uiGO) {
+        public bool TryGet(string uiName, out WindowEntity uiGO) {
             return all.TryGetValue(uiName, out uiGO);
         }
 
-        public void ForeachAll(Action<WindowBase> action, Func<bool> isBreak = null) {
+        public void ForeachAll(Action<WindowEntity> action, Func<bool> isBreak = null) {
             var e = all.Values.GetEnumerator();
 
             if (isBreak == null) {

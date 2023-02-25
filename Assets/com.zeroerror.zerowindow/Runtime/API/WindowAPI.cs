@@ -11,7 +11,7 @@ namespace ZeroWindow {
             this.context = context;
         }
 
-        WindowBase IWindowAPI.Show(string uiName, string layerName) {
+        WindowEntity IWindowAPI.Show(string uiName, string layerName) {
             return context.Domain.Show(uiName, layerName);
         }
 

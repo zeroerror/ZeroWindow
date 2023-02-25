@@ -4,7 +4,7 @@ namespace ZeroWindow {
 
     public interface IWindowAPI {
 
-        public WindowBase Show(string windowName, string layerName);
+        public WindowEntity Show(string windowName, string layerName);
         public void ShowAll();
 
         public void Hide(string windowName);

@@ -1,26 +1,32 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using ZeroWindow.Extension;
 
 namespace ZeroWindow.Sample {
 
-    public class SampleWindow : WindowBase {
-
-        UIButton uIButton;
+    public class SampleWindow : WindowEntity {
 
         protected override void OnCreate() {
-            Debug.Log("SampleWindow OnCreate");
+            Debug.Log("SampleWindow: OnCreate");
+
+            WindowExtension.OnPointerDown(gameObject, "btn", OnPointerDown, "Hello World", 123);
         }
 
         protected override void OnShow() {
-            Debug.Log("SampleWindow OnDisplay");
+            Debug.Log("SampleWindow: OnDisplay");
         }
 
         protected override void OnHide() {
-            Debug.Log("SampleWindow OnHide");
+            Debug.Log("SampleWindow: OnHide");
         }
 
         protected override void OnTick() {
-            Debug.Log("SampleWindow OnTick");
+            Debug.Log("SampleWindow: OnTick");
+        }
+
+        void OnPointerDown(PointerEventData eventData, params object[] args) {
+            Debug.Log("SampleWindow: OnPointerDown");
+            Debug.Log($"args {args[0]} {args[1]}");
         }
 
     }

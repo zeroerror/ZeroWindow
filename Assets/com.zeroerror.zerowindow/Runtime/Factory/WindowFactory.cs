@@ -14,7 +14,7 @@ namespace ZeroWindow {
             this.context = context;
         }
 
-        public WindowBase CreateWindow(string windowName) {
+        public WindowEntity CreateWindow(string windowName) {
             var windowAssets = context.WindowAssets;
             if (!windowAssets.TryGetValue(windowName, out var windowPrefab)) {
                 Debug.LogError($"Window {windowName} 不存在");
@@ -27,7 +27,7 @@ namespace ZeroWindow {
                 go.AddComponent<GraphicRaycaster>();
             }
 
-            var window = go.GetComponent<WindowBase>();
+            var window = go.GetComponent<WindowEntity>();
             window.Create();
 
             return window;
