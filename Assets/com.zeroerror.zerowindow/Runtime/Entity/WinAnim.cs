@@ -5,10 +5,12 @@ namespace ZeroWin {
 
     public class WinAnim : MonoBehaviour {
 
-        public RectTransform target;
+        public RectTransform startRect;
+
+        public RectTransform endRect;
+
         public AnimationCurve animCurve;
-        public Vector3 startPos;
-        public Vector3 endPos;
+
         public float duration;
 
         public WinAnim() { }
@@ -22,17 +24,26 @@ namespace ZeroWin {
         }
 
         public IEnumerator DisplayAnimEnumerator() {
+            var startPos = startRect.position;
+            var endPos = endRect.position;
+            var offset_pos = endPos - startPos;
+
+            var startScale = startRect.localScale;
+            var endScale = endRect.localScale;
+            var offset_scale = endScale - startScale;
+
             while (true) {
-                var offset = endPos - startPos;
                 var timeProportion = resTime / duration;
                 var curveValue = animCurve.Evaluate(timeProportion);
-                target.position = curveValue * offset + startPos;
 
-                var dt = Time.deltaTime;
-                resTime += dt;
+                startRect.position = curveValue * offset_pos + startPos;
+                startRect.localScale = curveValue * offset_scale + startScale;
+
+                resTime += Time.deltaTime;
                 resTime = resTime > duration ? 0 : resTime;
                 yield return null;
             }
+
         }
 
         void Reset() {

@@ -8,22 +8,20 @@ namespace ZeroWin.EditorTool {
     public class WinAnimEditor : Editor {
 
         WinAnim winAnim;
-        SerializedProperty property_target;
+        SerializedProperty property_startRect;
+        SerializedProperty property_endRect;
         SerializedProperty property_animCurve;
-        SerializedProperty property_startPos;
-        SerializedProperty property_endPos;
         SerializedProperty property_duration;
 
         EditorCoroutine coroutine;
 
         void OnEnable() {
-            property_target = serializedObject.FindProperty("target");
+            winAnim = (WinAnim)target;
+
+            property_startRect = serializedObject.FindProperty("startRect");
+            property_endRect = serializedObject.FindProperty("endRect");
             property_animCurve = serializedObject.FindProperty("animCurve");
             property_duration = serializedObject.FindProperty("duration");
-            property_startPos = serializedObject.FindProperty("startPos");
-            property_endPos = serializedObject.FindProperty("endPos");
-
-            winAnim = (WinAnim)target;
         }
 
         public override void OnInspectorGUI() {
@@ -34,14 +32,15 @@ namespace ZeroWin.EditorTool {
             }
 
             if (GUILayout.Button("停止")) {
-                EditorCoroutineUtility.StopCoroutine(coroutine);
+                if (coroutine != null) {
+                    EditorCoroutineUtility.StopCoroutine(coroutine);
+                }
             }
 
-            EditorGUILayout.PropertyField(property_target);
+            EditorGUILayout.PropertyField(property_startRect);
+            EditorGUILayout.PropertyField(property_endRect);
             EditorGUILayout.PropertyField(property_duration);
             EditorGUILayout.PropertyField(property_animCurve);
-            EditorGUILayout.PropertyField(property_startPos);
-            EditorGUILayout.PropertyField(property_endPos);
             serializedObject.ApplyModifiedProperties();
         }
     }
