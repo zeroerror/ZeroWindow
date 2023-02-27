@@ -10,6 +10,7 @@ namespace ZeroWindow.Sample {
             Debug.Log("SampleWindow: OnCreate");
 
             WindowExtension.OnPointerDown(gameObject, "btn", OnPointerDown, "Hello World", 123);
+            WindowExtension.OnPointerDrag(gameObject, "btn", OnPointerDrag, "Hello World", 123);
         }
 
         protected override void OnShow() {
@@ -26,6 +27,11 @@ namespace ZeroWindow.Sample {
 
         void OnPointerDown(PointerEventData eventData, params object[] args) {
             Debug.Log("SampleWindow: OnPointerDown");
+            Debug.Log($"args {args[0]} {args[1]}");
+        }
+
+        void OnPointerDrag(PointerEventData eventData, params object[] args) {
+            Debug.Log("SampleWindow: OnPointerDrag");
             Debug.Log($"args {args[0]} {args[1]}");
         }
 

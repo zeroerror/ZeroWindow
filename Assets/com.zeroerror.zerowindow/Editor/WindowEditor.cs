@@ -3,53 +3,43 @@ using UnityEngine.UI;
 using UnityEditor;
 using UnityEngine.EventSystems;
 
-namespace ZeroWindow.Editor
-{
-    public class UIEditor
-    {
+namespace ZeroWindow.Editor {
 
-        [MenuItem("GameObject/ZeroUI/Button", false, 10)]
-        public static void UIButton()
-        {
+    class WindowEditor {
+
+        [MenuItem("GameObject/ZeroWindow/Button", false, 1)]
+        static void UIButton() {
             GameObject selectedGO = GetSelectedGO();
-
             GameObject buttonGO = new GameObject();
-
-            UIButton button = buttonGO.AddComponent<UIButton>();
-            UIImage image = buttonGO.AddComponent<UIImage>();
-
             buttonGO.transform.SetParent(selectedGO.transform);
-            image.transform.SetParent(selectedGO.transform);
-
             buttonGO.name = "Button";
+            WinButton button = buttonGO.AddComponent<WinButton>();
+            WinImage image = buttonGO.AddComponent<WinImage>();
         }
 
-        [MenuItem("GameObject/ZeroUI/Image", false, 10)]
-        public static void UIImage()
-        {
+        [MenuItem("GameObject/ZeroWindow/Image", false, 2)]
+        static void WindowImage() {
             GameObject selectedGO = GetSelectedGO();
-
-            GameObject buttonGO = new GameObject();
-            UIButton button = new UIButton();
-            buttonGO.AddComponent<UIButton>();
-            buttonGO.transform.SetParent(selectedGO.transform);
-            buttonGO.name = "UIImage";
+            GameObject imgGO = new GameObject();
+            imgGO.transform.SetParent(selectedGO.transform);
+            imgGO.name = "Image";
+            imgGO.AddComponent<WinImage>();
         }
 
-        [MenuItem("GameObject/ZeroUI/Text", false, 10)]
-        public static void UIText()
-        {
-
+        [MenuItem("GameObject/ZeroWindow/Text", false, 3)]
+        static void WindowText() {
+            GameObject selectedGO = GetSelectedGO();
+            GameObject textGO = new GameObject();
+            textGO.transform.SetParent(selectedGO.transform);
+            textGO.name = "Text";
+            textGO.AddComponent<WinText>();
         }
 
-        static GameObject GetSelectedGO()
-        {
+        static GameObject GetSelectedGO() {
             var selectedGO = Selection.activeGameObject;
-            if (selectedGO == null)
-            {
+            if (selectedGO == null) {
                 GameObject canvasGO = GameObject.FindObjectOfType<Canvas>()?.gameObject;
-                if (canvasGO == null)
-                {
+                if (canvasGO == null) {
                     Debug.Log("当前没有Canvas, 创建Canvas");
                     canvasGO = new GameObject();
 
@@ -61,8 +51,7 @@ namespace ZeroWindow.Editor
                 canvasGO.name = "Canvas";
 
                 GameObject eventSystemGO = GameObject.FindObjectOfType<EventSystem>()?.gameObject;
-                if (eventSystemGO == null)
-                {
+                if (eventSystemGO == null) {
                     Debug.Log("当前没有Canvas, 创建Canvas");
                     eventSystemGO = new GameObject();
                     eventSystemGO.AddComponent<EventSystem>();

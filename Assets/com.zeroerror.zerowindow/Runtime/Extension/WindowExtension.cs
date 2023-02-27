@@ -16,11 +16,11 @@ namespace ZeroWindow.Extension {
                 return;
             }
 
-            if (!TryGetComponent<UIButton>(winGO, path, out var button)) {
-                win.gameObject.AddComponent<UIButton>();
+            if (!TryGetComponentByPath<WinButton>(winGO, path, out var button)) {
+                win.gameObject.AddComponent<WinButton>();
             }
 
-            button = win.gameObject.GetComponent<UIButton>();
+            button = win.gameObject.GetComponent<WinButton>();
             button.OnPointerDown_Clear();
             button.OnPointerDown(action, args);
         }
@@ -30,11 +30,11 @@ namespace ZeroWindow.Extension {
                 return;
             }
 
-            if (!TryGetComponent<UIButton>(winGO, path, out var button)) {
-                win.gameObject.AddComponent<UIButton>();
+            if (!TryGetComponentByPath<WinButton>(winGO, path, out var button)) {
+                win.gameObject.AddComponent<WinButton>();
             }
 
-            button = win.gameObject.GetComponent<UIButton>();
+            button = win.gameObject.GetComponent<WinButton>();
             button.OnPointerUp_Clear();
             button.OnPointerUp(action, args);
         }
@@ -44,11 +44,11 @@ namespace ZeroWindow.Extension {
                 return;
             }
 
-            if (!TryGetComponent<UIButton>(winGO, path, out var button)) {
-                win.gameObject.AddComponent<UIButton>();
+            if (!TryGetComponentByPath<WinButton>(winGO, path, out var button)) {
+                win.gameObject.AddComponent<WinButton>();
             }
 
-            button = win.gameObject.GetComponent<UIButton>();
+            button = win.gameObject.GetComponent<WinButton>();
             button.OnPointerDrag_Clear();
             button.OnPointerDrag(action, args);
         }
@@ -56,8 +56,9 @@ namespace ZeroWindow.Extension {
         #endregion
 
         #region [Slider]
-        public static void Slider_SetVal(GameObject winTrans, string path, float val) {
-            if (!TryGetComponent<Slider>(winTrans, path, out var slider)) {
+
+        public static void Slider_SetVal(GameObject trans, string path, float val) {
+            if (!TryGetComponentByPath<Slider>(trans, path, out var slider)) {
                 Debug.LogWarning($"Slider {path} 不存在");
                 return;
             };
@@ -67,19 +68,21 @@ namespace ZeroWindow.Extension {
 
         #endregion
 
-        static bool TryGetComponent<T>(GameObject winTrans, string path, out T component) {
+        #region [Common]
+
+        public static bool TryGetComponentByPath<T>(GameObject trans, string path, out T component) {
             component = default;
 
-            if (path == winTrans.name) {
-                component = winTrans.GetComponent<T>();
+            if (path == trans.name) {
+                component = trans.GetComponent<T>();
                 return true;
             }
 
-            if (!TryGetChild(winTrans, path, out var win)) {
+            if (!TryGetChild(trans, path, out var child)) {
                 return false;
             }
 
-            component = win.GetComponent<T>();
+            component = child.GetComponent<T>();
             return component != null;
         }
 
@@ -87,6 +90,8 @@ namespace ZeroWindow.Extension {
             childTrans = winGO.transform.Find(path);
             return childTrans != null;
         }
+
+        #endregion
 
     }
 

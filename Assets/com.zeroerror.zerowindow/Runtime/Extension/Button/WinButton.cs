@@ -1,11 +1,10 @@
 using System;
-using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace ZeroWindow {
 
-    public class UIButton : Button, IPointerDownHandler, IPointerUpHandler, IDragHandler {
+    public class WinButton : Button, IPointerDownHandler, IPointerUpHandler, IDragHandler {
 
         bool isPressing;
         public bool IsPressing => isPressing;
