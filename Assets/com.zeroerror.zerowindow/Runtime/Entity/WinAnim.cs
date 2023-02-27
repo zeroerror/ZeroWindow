@@ -3,33 +3,52 @@ using UnityEngine;
 
 namespace ZeroWin {
 
+
     public class WinAnim : MonoBehaviour {
 
-        public RectTransform startRect;
+        struct Trans {
 
-        public RectTransform endRect;
+            public Vector3 pos;
+            public Vector3 angle;
+            public Vector3 scale;
 
-        public AnimationCurve animCurve;
+            public Trans(Vector3 pos, Vector3 angle, Vector3 scale) {
+                this.pos = pos;
+                this.angle = angle;
+                this.scale = scale;
+            }
 
-        public float duration;
-
-        public WinAnim() { }
-
-        float resTime;
-        int index;
-        int keyFrameCount;
-
-        void OnEnable() {
-            Reset();
         }
 
-        public IEnumerator DisplayAnimEnumerator() {
-            var startPos = startRect.position;
-            var endPos = endRect.position;
-            var offset_pos = endPos - startPos;
+        public RectTransform startRect;
+        public RectTransform endRect;
+        public AnimationCurve animCurve;
 
+        Trans startTrans;
+        public float duration;
+
+        public WinAnim() {
+            startTrans = new Trans();
+        }
+
+        float resTime;
+
+        public IEnumerator DisplayAnimEnumerator() {
+            if (startRect == null || endRect == null) {
+                yield break;
+            }
+
+            var startPos = startRect.position;
+            var startAngle = startRect.eulerAngles;
             var startScale = startRect.localScale;
+            startTrans = new Trans(startPos, startAngle, startScale);
+
+            var endPos = endRect.position;
+            var endAngle = endRect.eulerAngles;
             var endScale = endRect.localScale;
+
+            var offset_pos = endPos - startPos;
+            var offset_angle = endAngle - startAngle;
             var offset_scale = endScale - startScale;
 
             while (true) {
@@ -43,13 +62,17 @@ namespace ZeroWin {
                 resTime = resTime > duration ? 0 : resTime;
                 yield return null;
             }
-
         }
 
-        void Reset() {
+        public void Reset() {
+            if (startRect == null || endRect == null) {
+                return;
+            }
+
+            startRect.position = startTrans.pos;
+            startRect.eulerAngles = startTrans.angle;
+            startRect.localScale = startTrans.scale;
             resTime = 0;
-            index = 0;
-            keyFrameCount = animCurve.keys.Length;
         }
 
     }
