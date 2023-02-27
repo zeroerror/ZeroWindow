@@ -22,10 +22,14 @@ namespace ZeroWin {
 
         public RectTransform startRect;
         public RectTransform endRect;
-        public AnimationCurve animCurve;
+        public AnimationCurve animCurve_pos;
+        public AnimationCurve animCurve_angle;
+        public AnimationCurve animCurve_scale;
 
         Trans startTrans;
         public float duration;
+
+        public bool isPausing;
 
         public WinAnim() {
             startTrans = new Trans();
@@ -52,11 +56,18 @@ namespace ZeroWin {
             var offset_scale = endScale - startScale;
 
             while (true) {
-                var timeProportion = resTime / duration;
-                var curveValue = animCurve.Evaluate(timeProportion);
+                while (isPausing) {
+                    yield return null;
+                }
 
-                startRect.position = curveValue * offset_pos + startPos;
-                startRect.localScale = curveValue * offset_scale + startScale;
+                var timeProportion = resTime / duration;
+                var curveValue_pos = animCurve_pos.Evaluate(timeProportion);
+                var curveValue_angle = animCurve_angle.Evaluate(timeProportion);
+                var curveValue_scale = animCurve_scale.Evaluate(timeProportion);
+
+                startRect.position = curveValue_pos * offset_pos + startPos;
+                startRect.eulerAngles = curveValue_angle * offset_angle + startAngle;
+                startRect.localScale = curveValue_scale * offset_scale + startScale;
 
                 resTime += Time.deltaTime;
                 resTime = resTime > duration ? 0 : resTime;
@@ -73,6 +84,7 @@ namespace ZeroWin {
             startRect.eulerAngles = startTrans.angle;
             startRect.localScale = startTrans.scale;
             resTime = 0;
+            isPausing = false;
         }
 
     }

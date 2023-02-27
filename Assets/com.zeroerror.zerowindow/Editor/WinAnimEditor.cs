@@ -7,28 +7,43 @@ namespace ZeroWin.EditorTool {
     [CustomEditor(typeof(WinAnim))]
     public class WinAnimEditor : Editor {
 
+        enum AnimState {
+            Stop,
+            Playing,
+            Pause,
+        }
+
         WinAnim winAnim;
         SerializedProperty property_startRect;
         SerializedProperty property_endRect;
-        SerializedProperty property_animCurve;
+        SerializedProperty property_animCurve_pos;
+        SerializedProperty property_animCurve_angle;
+        SerializedProperty property_animCurve_scale;
         SerializedProperty property_duration;
+        SerializedProperty property_isPausing;
 
         EditorCoroutine coroutine;
+
+        AnimState animState = AnimState.Stop;
 
         void OnEnable() {
             winAnim = (WinAnim)target;
             property_startRect = serializedObject.FindProperty("startRect");
             property_endRect = serializedObject.FindProperty("endRect");
-            property_animCurve = serializedObject.FindProperty("animCurve");
+            property_animCurve_pos = serializedObject.FindProperty("animCurve_pos");
+            property_animCurve_angle = serializedObject.FindProperty("animCurve_angle");
+            property_animCurve_scale = serializedObject.FindProperty("animCurve_scale");
             property_duration = serializedObject.FindProperty("duration");
-            Reset();
+            property_isPausing = serializedObject.FindProperty("isPausing");
+            ResetAnimDisplay();
         }
 
         void OnDisable() {
-            Reset();
+            ResetAnimDisplay();
+            animState = AnimState.Stop;
         }
 
-        void Reset() {
+        void ResetAnimDisplay() {
             if (coroutine == null) {
                 return;
             }
@@ -39,19 +54,38 @@ namespace ZeroWin.EditorTool {
         public override void OnInspectorGUI() {
             serializedObject.Update();
 
-            if (GUILayout.Button("播放")) {
-                Reset();
+            GUIStyle style = new GUIStyle("Button");
+            style.normal.textColor = Color.green;
+            if (animState == AnimState.Stop && GUILayout.Button("播放", style)) {
+                animState = AnimState.Playing;
+                ResetAnimDisplay();
                 coroutine = EditorCoroutineUtility.StartCoroutine(winAnim.DisplayAnimEnumerator(), winAnim);
             }
 
-            if (GUILayout.Button("停止")) {
-                Reset();
+            style.normal.textColor = Color.red;
+            if (animState != AnimState.Stop && GUILayout.Button("停止", style)) {
+                animState = AnimState.Stop;
+                ResetAnimDisplay();
             }
 
-            EditorGUILayout.PropertyField(property_startRect);
-            EditorGUILayout.PropertyField(property_endRect);
-            EditorGUILayout.PropertyField(property_duration);
-            EditorGUILayout.PropertyField(property_animCurve);
+            style.normal.textColor = Color.yellow;
+            if (animState == AnimState.Playing && GUILayout.Button("暂停", style)) {
+                animState = AnimState.Pause;
+                property_isPausing.boolValue = true;
+            }
+
+            style.normal.textColor = Color.gray;
+            if (animState == AnimState.Pause && GUILayout.Button("继续", style)) {
+                animState = AnimState.Playing;
+                property_isPausing.boolValue = false;
+            }
+
+            EditorGUILayout.PropertyField(property_startRect, new GUIContent("起始位置"));
+            EditorGUILayout.PropertyField(property_endRect, new GUIContent("结束位置"));
+            EditorGUILayout.PropertyField(property_duration, new GUIContent("动画时长"));
+            EditorGUILayout.PropertyField(property_animCurve_pos, new GUIContent("动画曲线 - 位置"));
+            EditorGUILayout.PropertyField(property_animCurve_angle, new GUIContent("动画曲线 - 角度"));
+            EditorGUILayout.PropertyField(property_animCurve_scale, new GUIContent("动画曲线 - 缩放"));
             serializedObject.ApplyModifiedProperties();
         }
     }
