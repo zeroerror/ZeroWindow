@@ -1,10 +1,10 @@
 using UnityEngine;
 
-namespace ZeroWindow {
+namespace ZeroWin {
 
-    public interface IWindowAPI {
+    public interface IWinAPI {
 
-        public WindowEntity Show(string windowName, string layerName);
+        public WinBase Show(string windowName, string layerName);
         public void ShowAll();
 
         public void Hide(string windowName);

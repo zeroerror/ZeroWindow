@@ -3,11 +3,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace ZeroWindow {
+namespace ZeroWin {
 
-    public class WindowService {
+    public class WinService {
 
-        public GameObject WindowCanvasGo { get; set; }
+        public GameObject WinCanvasGo { get; set; }
 
         Canvas _windowCanvas;
 
@@ -21,12 +21,12 @@ namespace ZeroWindow {
 
         Dictionary<string, int2> sortingInfoDic;
 
-        public WindowService(Vector2 resolution, string windowLayerName) {
+        public WinService(Vector2 resolution, string windowLayerName) {
             layerDic = new Dictionary<string, Transform>();
             windowHashSet = new HashSet<string>();
             sortingInfoDic = new Dictionary<string, int2>();
 
-            var root = new GameObject("WindowCanvas", typeof(Canvas), typeof(CanvasScaler));
+            var root = new GameObject("WinCanvas", typeof(Canvas), typeof(CanvasScaler));
             GameObject.DontDestroyOnLoad(root);
 
             var rootLayer = LayerMask.NameToLayer(windowLayerName);
@@ -44,7 +44,7 @@ namespace ZeroWindow {
             var canvasRect = root.GetComponent<RectTransform>();
             canvasRect.position = Vector3.zero;//CanvasScaler 会进行重置坐标 等其加载完成
 
-            var mainView = new GameObject("WindowMainView", typeof(RectTransform)).GetComponent<RectTransform>();
+            var mainView = new GameObject("WinMainView", typeof(RectTransform)).GetComponent<RectTransform>();
             ResetRect(mainView);
             mainView.transform.SetParent(root.transform, false);
 
@@ -66,14 +66,14 @@ namespace ZeroWindow {
                 curSortingOrder += 10;
                 ResetRect(layerRct);
                 layerDic.Add(layerName, layerRct.transform);
-                Debug.Log($"{nameof(WindowService)}: Add Layer: {layerName}");
+                Debug.Log($"{nameof(WinService)}: Add Layer: {layerName}");
             }
 
             var eventSystem = new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule), typeof(BaseInput));
             eventSystem.transform.SetParent(root.transform, false);
         }
 
-        public void PushToCanvas(WindowEntity window, string layerName) {
+        public void PushToCanvas(WinBase window, string layerName) {
             Canvas canvas = window.GetComponent<Canvas>();
 
             var windowName = window.name;
@@ -82,7 +82,7 @@ namespace ZeroWindow {
                 canvas.overrideSorting = true;
                 canvas.sortingLayerName = layerName;
             } else {
-                Debug.Log($"{nameof(WindowService)}: window {windowName} is already exist");
+                Debug.Log($"{nameof(WinService)}: window {windowName} is already exist");
             }
 
             int2 sortingInfo = sortingInfoDic[layerName];

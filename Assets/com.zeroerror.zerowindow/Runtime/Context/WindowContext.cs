@@ -1,30 +1,30 @@
 using System.Collections.Generic;
 using UnityEngine;
-using ZeroWindow;
+using ZeroWin;
 
-namespace ZeroWindow {
+namespace ZeroWin {
 
-    public class WindowContext {
+    public class WinContext {
 
-        public WindowDomain Domain { get; private set; }
-        public WindowRepo Repo { get; private set; }
-        public WindowFactory Factory { get; private set; }
-        public Dictionary<string, GameObject> WindowAssets { get; private set; }
-        public WindowService Service { get; private set; }
+        public WinDomain Domain { get; private set; }
+        public WinRepo Repo { get; private set; }
+        public WinFactory Factory { get; private set; }
+        public Dictionary<string, GameObject> WinAssets { get; private set; }
+        public WinService Service { get; private set; }
 
-        public WindowContext() {
-            Domain = new WindowDomain();
-            Repo = new WindowRepo();
-            Factory = new WindowFactory();
-            WindowAssets = new Dictionary<string, GameObject>();
+        public WinContext() {
+            Domain = new WinDomain();
+            Repo = new WinRepo();
+            Factory = new WinFactory();
+            WinAssets = new Dictionary<string, GameObject>();
         }
 
-        public void Inject(IList<GameObject> uiAssets, WindowService service) {
+        public void Inject(IList<GameObject> uiAssets, WinService service) {
             var count = uiAssets.Count;
             for (int i = 0; i < count; i++) {
                 var ui = uiAssets[i];
                 var uiName = ui.name;
-                WindowAssets.Add(uiName, ui);
+                WinAssets.Add(uiName, ui);
                 Debug.Log($"注入UI资产 {uiName}");
             }
 

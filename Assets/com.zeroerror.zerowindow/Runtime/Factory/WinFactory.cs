@@ -1,23 +1,23 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ZeroWindow {
+namespace ZeroWin {
 
-    public class WindowFactory {
+    public class WinFactory {
 
-        WindowContext context;
+        WinContext context;
 
-        public WindowFactory() {
+        public WinFactory() {
         }
 
-        public void Inject(WindowContext context) {
+        public void Inject(WinContext context) {
             this.context = context;
         }
 
-        public WindowEntity CreateWindow(string windowName) {
-            var windowAssets = context.WindowAssets;
+        public WinBase CreateWin(string windowName) {
+            var windowAssets = context.WinAssets;
             if (!windowAssets.TryGetValue(windowName, out var windowPrefab)) {
-                Debug.LogError($"Window {windowName} 不存在");
+                Debug.LogError($"Win {windowName} 不存在");
                 return null;
             }
 
@@ -27,7 +27,7 @@ namespace ZeroWindow {
                 go.AddComponent<GraphicRaycaster>();
             }
 
-            var window = go.GetComponent<WindowEntity>();
+            var window = go.GetComponent<WinBase>();
             window.Create();
 
             return window;

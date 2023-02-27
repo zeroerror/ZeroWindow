@@ -1,12 +1,12 @@
 using UnityEngine;
 
-namespace ZeroWindow {
+namespace ZeroWin {
 
-    public class WindowEntity : MonoBehaviour {
+    public class WinBase : MonoBehaviour {
 
-        public string WindowName => gameObject.name;
+        public string WinName => gameObject.name;
 
-        public WindowEntity() { }
+        public WinBase() { }
 
         /// Summary
         /// Only Called Once When UI Created    

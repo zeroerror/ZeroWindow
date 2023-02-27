@@ -1,22 +1,22 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ZeroWindow {
+namespace ZeroWin {
 
-    public class WindowDomain {
+    public class WinDomain {
 
-        WindowContext context;
+        WinContext context;
 
-        public WindowDomain() { }
+        public WinDomain() { }
 
-        public void Inject(WindowContext context) {
+        public void Inject(WinContext context) {
             this.context = context;
         }
 
-        public WindowEntity Show(string windowName, string layerName, params object[] args) {
+        public WinBase Show(string windowName, string layerName, params object[] args) {
             var repo = context.Repo;
             if (!repo.TryGet(windowName, out var window)) {
-                window = context.Factory.CreateWindow(windowName);
+                window = context.Factory.CreateWin(windowName);
                 repo.Add(window);
             }
 
@@ -38,7 +38,7 @@ namespace ZeroWindow {
         public void Hide(string windowName) {
             var repo = context.Repo;
             if (!repo.TryGet(windowName, out var ui)) {
-                Debug.LogWarning($"Window {windowName} 不存在");
+                Debug.LogWarning($"Win {windowName} 不存在");
                 return;
             }
             ui.Hide();
@@ -51,7 +51,7 @@ namespace ZeroWindow {
             });
         }
 
-        public void DisposeAllWindow() {
+        public void DisposeAllWin() {
             var repo = context.Repo;
             repo.ForeachAll(window => {
                 window.Dispose();
@@ -62,7 +62,7 @@ namespace ZeroWindow {
         public void Dispose(string windowName) {
             var repo = context.Repo;
             if (!repo.TryGet(windowName, out var window)) {
-                Debug.LogWarning($"Window {windowName} 不存在");
+                Debug.LogWarning($"Win {windowName} 不存在");
                 return;
             }
             window.Dispose();
@@ -185,9 +185,9 @@ namespace ZeroWindow {
             return component != null;
         }
 
-        bool TryGetChild(GameObject windowGO, string path, ref Transform childWindow) {
-            childWindow = windowGO.transform.Find(path);
-            if (childWindow == null) {
+        bool TryGetChild(GameObject windowGO, string path, ref Transform childWin) {
+            childWin = windowGO.transform.Find(path);
+            if (childWin == null) {
                 return false;
             }
             return true;

@@ -2,18 +2,18 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ZeroWindow {
+namespace ZeroWin {
 
-    public class WindowRepo {
+    public class WinRepo {
 
-        Dictionary<string, WindowEntity> all;
+        Dictionary<string, WinBase> all;
 
-        public WindowRepo() {
-            all = new Dictionary<string, WindowEntity>();
+        public WinRepo() {
+            all = new Dictionary<string, WinBase>();
         }
 
-        public void Add(WindowEntity window) {
-            all.Add(window.WindowName, window);
+        public void Add(WinBase window) {
+            all.Add(window.WinName, window);
         }
 
         public void Remove(string uiName) {
@@ -24,11 +24,11 @@ namespace ZeroWindow {
             all.Clear();
         }
 
-        public bool TryGet(string uiName, out WindowEntity uiGO) {
+        public bool TryGet(string uiName, out WinBase uiGO) {
             return all.TryGetValue(uiName, out uiGO);
         }
 
-        public void ForeachAll(Action<WindowEntity> action, Func<bool> isBreak = null) {
+        public void ForeachAll(Action<WinBase> action, Func<bool> isBreak = null) {
             var e = all.Values.GetEnumerator();
 
             if (isBreak == null) {

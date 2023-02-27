@@ -1,8 +1,7 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEditor;
 
-namespace ZeroWindow {
+namespace ZeroWin {
 
     [CustomEditor(typeof(WinText), true)]
     [CanEditMultipleObjects]

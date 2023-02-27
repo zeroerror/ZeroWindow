@@ -3,11 +3,11 @@ using UnityEngine.UI;
 using UnityEditor;
 using UnityEngine.EventSystems;
 
-namespace ZeroWindow.Editor {
+namespace ZeroWin.EditorTool {
 
-    class WindowEditor {
+    class WinEditor {
 
-        [MenuItem("GameObject/ZeroWindow/Button", false, 1)]
+        [MenuItem("GameObject/ZeroWin/Button", false, 1)]
         static void UIButton() {
             GameObject selectedGO = GetSelectedGO();
             GameObject buttonGO = new GameObject();
@@ -17,8 +17,8 @@ namespace ZeroWindow.Editor {
             WinImage image = buttonGO.AddComponent<WinImage>();
         }
 
-        [MenuItem("GameObject/ZeroWindow/Image", false, 2)]
-        static void WindowImage() {
+        [MenuItem("GameObject/ZeroWin/Image", false, 2)]
+        static void WinImage() {
             GameObject selectedGO = GetSelectedGO();
             GameObject imgGO = new GameObject();
             imgGO.transform.SetParent(selectedGO.transform);
@@ -26,8 +26,8 @@ namespace ZeroWindow.Editor {
             imgGO.AddComponent<WinImage>();
         }
 
-        [MenuItem("GameObject/ZeroWindow/Text", false, 3)]
-        static void WindowText() {
+        [MenuItem("GameObject/ZeroWin/Text", false, 3)]
+        static void WinText() {
             GameObject selectedGO = GetSelectedGO();
             GameObject textGO = new GameObject();
             textGO.transform.SetParent(selectedGO.transform);

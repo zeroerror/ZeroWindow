@@ -2,11 +2,11 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using ZeroWindow.Generic;
+using ZeroWin.Generic;
 
-namespace ZeroWindow.Extension {
+namespace ZeroWin.Extension {
 
-    public static class WindowExtension {
+    public static class WinExtension {
 
 
         #region [Pointer]

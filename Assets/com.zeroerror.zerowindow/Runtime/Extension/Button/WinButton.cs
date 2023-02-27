@@ -2,7 +2,7 @@ using System;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace ZeroWindow {
+namespace ZeroWin {
 
     public class WinButton : Button, IPointerDownHandler, IPointerUpHandler, IDragHandler {
 

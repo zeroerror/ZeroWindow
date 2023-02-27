@@ -1,4 +1,4 @@
-namespace ZeroWindow {
+namespace ZeroWin {
 
     public struct int2 {
 

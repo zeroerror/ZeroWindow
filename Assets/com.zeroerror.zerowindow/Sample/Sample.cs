@@ -1,17 +1,17 @@
 using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using ZeroWindow;
+using ZeroWin;
 
-namespace ZeroWindow.Sample {
+namespace ZeroWin.Sample {
 
     public class Sample : MonoBehaviour {
 
-        WindowCore windowCore;
+        WinCore windowCore;
         bool isShow = false;
 
         void Awake() {
-            windowCore = new WindowCore(new Vector2(1920, 1080), "UI");
+            windowCore = new WinCore(new Vector2(1920, 1080), "UI");
             Action action = async () => {
                 // Load UI assets
                 AssetLabelReference labelReference = new AssetLabelReference();
@@ -22,7 +22,7 @@ namespace ZeroWindow.Sample {
                 windowCore.Inject(list);
 
                 // Show UI
-                SampleWindow sampleUI = windowCore.API.Show("SampleWindow", "Default") as SampleWindow;
+                SampleWin sampleUI = windowCore.API.Show("SampleWin", "Default") as SampleWin;
                 isShow = true;
             };
             action.Invoke();

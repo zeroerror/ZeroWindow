@@ -1,38 +1,38 @@
-namespace ZeroWindow {
+namespace ZeroWin {
 
-    public class WindowAPI : IWindowAPI {
+    public class WinAPI : IWinAPI {
 
-        WindowContext context;
+        WinContext context;
 
-        public WindowAPI() {
+        public WinAPI() {
         }
 
-        public void Inject(WindowContext context) {
+        public void Inject(WinContext context) {
             this.context = context;
         }
 
-        WindowEntity IWindowAPI.Show(string uiName, string layerName) {
+        WinBase IWinAPI.Show(string uiName, string layerName) {
             return context.Domain.Show(uiName, layerName);
         }
 
-        void IWindowAPI.Hide(string uiName) {
+        void IWinAPI.Hide(string uiName) {
             context.Domain.Hide(uiName);
         }
 
-        void IWindowAPI.HideAll() {
+        void IWinAPI.HideAll() {
             context.Domain.HideAll();
         }
 
-        void IWindowAPI.ShowAll() {
+        void IWinAPI.ShowAll() {
             context.Domain.DisplayAll();
         }
 
-        void IWindowAPI.DisposeAll() {
-            context.Domain.DisposeAllWindow();
+        void IWinAPI.DisposeAll() {
+            context.Domain.DisposeAllWin();
         }
 
-        void IWindowAPI.Dispose(string windowName) {
-            context.Domain.DisposeAllWindow();
+        void IWinAPI.Dispose(string windowName) {
+            context.Domain.DisposeAllWin();
         }
     }
 
