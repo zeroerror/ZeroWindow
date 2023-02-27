@@ -53,10 +53,6 @@ namespace ZeroWindow {
             int curSortingOrder = 0;
             for (int i = 0; i < layerCount; i++) {
                 var layer = layers[i];
-                if (layer.value == 0) {
-                    continue;
-                }
-
                 var layerName = layer.name;
                 var layerGO = new GameObject(layerName, typeof(Canvas));
                 var layerRct = layerGO.GetComponent<RectTransform>();

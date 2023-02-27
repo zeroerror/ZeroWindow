@@ -22,7 +22,7 @@ namespace ZeroWindow.Sample {
                 windowCore.Inject(list);
 
                 // Show UI
-                SampleWindow sampleUI = windowCore.API.Show("SampleWindow", "Normal") as SampleWindow;
+                SampleWindow sampleUI = windowCore.API.Show("SampleWindow", "Default") as SampleWindow;
                 isShow = true;
             };
             action.Invoke();
