@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using ZeroWin.Generic;
 
 namespace ZeroWin {
 
@@ -14,7 +15,7 @@ namespace ZeroWin {
             this.context = context;
         }
 
-        public WinBase CreateWin(string windowName) {
+        public WinBase CreateWinBase(string windowName) {
             var windowAssets = context.WinAssets;
             if (!windowAssets.TryGetValue(windowName, out var windowPrefab)) {
                 Debug.LogError($"Win {windowName} 不存在");
@@ -31,6 +32,19 @@ namespace ZeroWin {
             window.Create();
 
             return window;
+        }
+
+        public WinAnimPlayer CreateAnimPlayer(string animName) {
+            WinAnimModel animModel = new WinAnimModel();
+            // TODO: 从资源加载动画配置
+            animModel.offsetModel = new RectTransformModel();
+            animModel.animCurve_pos = new AnimationCurve();
+            animModel.animCurve_angleZ = new AnimationCurve();
+            animModel.animCurve_scale = new AnimationCurve();
+            animModel.duration = 0f;
+
+            WinAnimPlayer animPlayer = new WinAnimPlayer(animModel);
+            return animPlayer;
         }
 
     }

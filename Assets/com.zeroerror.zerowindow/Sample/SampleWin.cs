@@ -15,6 +15,9 @@ namespace ZeroWin.Sample {
 
         protected override void OnShow() {
             Debug.Log("SampleWin: OnDisplay");
+
+            var start = transform.Find("start").gameObject;
+            WinExtension.PlayAnim("anim_win_test",start);
         }
 
         protected override void OnHide() {

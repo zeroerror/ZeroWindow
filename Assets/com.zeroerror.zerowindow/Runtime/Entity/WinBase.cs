@@ -4,7 +4,7 @@ namespace ZeroWin {
 
     public class WinBase : MonoBehaviour {
 
-        public string WinName => gameObject.name;
+        public string WinBaseName => gameObject.name;
 
         public WinBase() { }
 

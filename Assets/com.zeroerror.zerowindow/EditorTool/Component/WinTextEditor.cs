@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace ZeroWin {
+namespace ZeroWin.EditorTool {
 
     [CustomEditor(typeof(WinText), true)]
     [CanEditMultipleObjects]
@@ -29,7 +29,7 @@ namespace ZeroWin {
             EditorGUILayout.Space();
 
             serializedObject.ApplyModifiedProperties();
-            
+
             base.OnInspectorGUI();
         }
     }

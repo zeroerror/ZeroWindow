@@ -3,22 +3,7 @@ using UnityEngine;
 
 namespace ZeroWin {
 
-
     public class WinAnim : MonoBehaviour {
-
-        struct Trans {
-
-            public Vector2 pos;
-            public float angleZ;
-            public Vector2 scale;
-
-            public Trans(Vector2 pos, float angle, Vector2 scale) {
-                this.pos = pos;
-                this.angleZ = angle;
-                this.scale = scale;
-            }
-
-        }
 
         public RectTransform startRect;
         public RectTransform endRect;
@@ -27,13 +12,13 @@ namespace ZeroWin {
         public AnimationCurve animCurve_angle;
         public AnimationCurve animCurve_scale;
 
-        Trans startTrans;
+        RectTransformModel startTrans;
         public float duration;
 
         public bool isPausing;
 
-        public WinAnim() {
-            startTrans = new Trans();
+        void Awake() {
+            startTrans = new RectTransformModel();
         }
 
         float resTime;
@@ -46,7 +31,7 @@ namespace ZeroWin {
             var startPos = startRect.position;
             var startAngleZ = startRect.rotation.eulerAngles.z;
             var startScale = startRect.localScale;
-            startTrans = new Trans(startPos, startAngleZ, startScale);
+            startTrans = new RectTransformModel(startPos, startAngleZ, startScale);
 
             var endPos = endRect.position;
             var endAngleZ = endRect.rotation.eulerAngles.z;

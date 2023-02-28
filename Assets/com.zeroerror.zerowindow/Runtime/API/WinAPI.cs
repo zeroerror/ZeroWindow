@@ -12,27 +12,27 @@ namespace ZeroWin {
         }
 
         WinBase IWinAPI.Show(string uiName, string layerName) {
-            return context.Domain.Show(uiName, layerName);
+            return context.WinBaseDomain.Show(uiName, layerName);
         }
 
         void IWinAPI.Hide(string uiName) {
-            context.Domain.Hide(uiName);
+            context.WinBaseDomain.Hide(uiName);
         }
 
         void IWinAPI.HideAll() {
-            context.Domain.HideAll();
+            context.WinBaseDomain.HideAll();
         }
 
         void IWinAPI.ShowAll() {
-            context.Domain.DisplayAll();
+            context.WinBaseDomain.DisplayAll();
         }
 
         void IWinAPI.DisposeAll() {
-            context.Domain.DisposeAllWin();
+            context.WinBaseDomain.DisposeAllWin();
         }
 
         void IWinAPI.Dispose(string windowName) {
-            context.Domain.DisposeAllWin();
+            context.WinBaseDomain.DisposeAllWin();
         }
     }
 

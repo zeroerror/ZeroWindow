@@ -6,15 +6,24 @@ namespace ZeroWin {
 
     public class WinContext {
 
-        public WinDomain Domain { get; private set; }
-        public WinRepo Repo { get; private set; }
+        public WinBaseDomain WinBaseDomain { get; private set; }
+        public WinAnimDomain WinAnimDomain { get; private set; }
+
+        public WinBaseRepo WinBaseRepo { get; private set; }
+        public WinAnimPlayerRepo AnimPlayerRepo { get; private set; }
+
         public WinFactory Factory { get; private set; }
+        public WinService WinService { get; private set; }
+        
         public Dictionary<string, GameObject> WinAssets { get; private set; }
-        public WinService Service { get; private set; }
 
         public WinContext() {
-            Domain = new WinDomain();
-            Repo = new WinRepo();
+            WinBaseDomain = new WinBaseDomain();
+            WinAnimDomain = new WinAnimDomain();
+            
+            WinBaseRepo = new WinBaseRepo();
+            AnimPlayerRepo = new WinAnimPlayerRepo();
+
             Factory = new WinFactory();
             WinAssets = new Dictionary<string, GameObject>();
         }
@@ -25,12 +34,12 @@ namespace ZeroWin {
                 var ui = uiAssets[i];
                 var uiName = ui.name;
                 WinAssets.Add(uiName, ui);
-                Debug.Log($"注入UI资产 {uiName}");
+                Debug.Log($"外部注入资产 {uiName}");
             }
 
-            this.Service = service;
+            this.WinService = service;
 
-            Domain.Inject(this);
+            WinBaseDomain.Inject(this);
             Factory.Inject(this);
         }
 

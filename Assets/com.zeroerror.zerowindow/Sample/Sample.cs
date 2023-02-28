@@ -34,7 +34,7 @@ namespace ZeroWin.Sample {
                 if (isShow) {
                     windowCore.API.HideAll();
                     isShow = false;
-                }else{
+                } else {
                     windowCore.API.ShowAll();
                     isShow = true;
                 }

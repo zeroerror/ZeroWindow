@@ -3,24 +3,32 @@ using UnityEngine.UI;
 
 namespace ZeroWin {
 
-    public class WinDomain {
+    public class WinBaseDomain {
 
         WinContext context;
 
-        public WinDomain() { }
+        public WinBaseDomain() { }
 
         public void Inject(WinContext context) {
             this.context = context;
         }
 
+        public void TickAllWinBase() {
+            var winBaseRepo = context.WinBaseRepo;
+            winBaseRepo.ForeachAll(winBase => {
+                winBase.Tick();
+            });
+
+        }
+
         public WinBase Show(string windowName, string layerName, params object[] args) {
-            var repo = context.Repo;
+            var repo = context.WinBaseRepo;
             if (!repo.TryGet(windowName, out var window)) {
-                window = context.Factory.CreateWin(windowName);
+                window = context.Factory.CreateWinBase(windowName);
                 repo.Add(window);
             }
 
-            var service = context.Service;
+            var service = context.WinService;
             service.PushToCanvas(window, layerName);
 
             window.Show();
@@ -29,14 +37,14 @@ namespace ZeroWin {
         }
 
         public void DisplayAll() {
-            var repo = context.Repo;
+            var repo = context.WinBaseRepo;
             repo.ForeachAll(ui => {
                 ui.Show();
             });
         }
 
         public void Hide(string windowName) {
-            var repo = context.Repo;
+            var repo = context.WinBaseRepo;
             if (!repo.TryGet(windowName, out var ui)) {
                 Debug.LogWarning($"Win {windowName} 不存在");
                 return;
@@ -45,14 +53,14 @@ namespace ZeroWin {
         }
 
         public void HideAll() {
-            var repo = context.Repo;
+            var repo = context.WinBaseRepo;
             repo.ForeachAll(ui => {
                 ui.Hide();
             });
         }
 
         public void DisposeAllWin() {
-            var repo = context.Repo;
+            var repo = context.WinBaseRepo;
             repo.ForeachAll(window => {
                 window.Dispose();
             });
@@ -60,7 +68,7 @@ namespace ZeroWin {
         }
 
         public void Dispose(string windowName) {
-            var repo = context.Repo;
+            var repo = context.WinBaseRepo;
             if (!repo.TryGet(windowName, out var window)) {
                 Debug.LogWarning($"Win {windowName} 不存在");
                 return;

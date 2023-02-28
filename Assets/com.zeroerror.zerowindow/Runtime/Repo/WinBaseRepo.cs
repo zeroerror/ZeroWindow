@@ -1,19 +1,18 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace ZeroWin {
 
-    public class WinRepo {
+    public class WinBaseRepo {
 
         Dictionary<string, WinBase> all;
 
-        public WinRepo() {
+        public WinBaseRepo() {
             all = new Dictionary<string, WinBase>();
         }
 
-        public void Add(WinBase window) {
-            all.Add(window.WinName, window);
+        public void Add(WinBase winBase) {
+            all.Add(winBase.WinBaseName, winBase);
         }
 
         public void Remove(string uiName) {

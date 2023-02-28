@@ -2,12 +2,20 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using ZeroWin.Generic;
 
 namespace ZeroWin.Extension {
 
     public static class WinExtension {
 
+        static WinContext winContext;
+
+        public static void Inject(WinContext context) {
+            winContext = context;
+        }
+
+        public static void Dispose() {
+            winContext = null;
+        }
 
         #region [Pointer]
 
@@ -70,15 +78,15 @@ namespace ZeroWin.Extension {
 
         #region [Common]
 
-        public static bool TryGetComponentByPath<T>(GameObject trans, string path, out T component) {
+        public static bool TryGetComponentByPath<T>(GameObject go, string path, out T component) {
             component = default;
 
-            if (path == trans.name) {
-                component = trans.GetComponent<T>();
+            if (path == go.name) {
+                component = go.GetComponent<T>();
                 return true;
             }
 
-            if (!TryGetChild(trans, path, out var child)) {
+            if (!TryGetChild(go, path, out var child)) {
                 return false;
             }
 
@@ -86,9 +94,23 @@ namespace ZeroWin.Extension {
             return component != null;
         }
 
-        static bool TryGetChild(GameObject winGO, string path, out Transform childTrans) {
-            childTrans = winGO.transform.Find(path);
+        static bool TryGetChild(GameObject go, string path, out Transform childTrans) {
+            childTrans = go.transform.Find(path);
             return childTrans != null;
+        }
+
+        #endregion
+
+        #region [Anim]
+
+        public static void PlayAnim(string winAnimName, GameObject self) {
+            var aniDomain = winContext.WinAnimDomain;
+            aniDomain.PlayAnim(winAnimName, self);
+        }
+
+        public static void PlayAnimWithTarget(string winAnimName, GameObject self, GameObject tar) {
+            var aniDomain = winContext.WinAnimDomain;
+            aniDomain.PlayAnimWithTarget(winAnimName, self, tar);
         }
 
         #endregion

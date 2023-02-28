@@ -7,12 +7,6 @@ namespace ZeroWin.EditorTool {
     [CustomEditor(typeof(WinAnim))]
     public class WinAnimEditor : Editor {
 
-        enum AnimState {
-            Stop,
-            Playing,
-            Pause,
-        }
-
         WinAnim winAnim;
 
         SerializedProperty property_startRect;
@@ -27,7 +21,7 @@ namespace ZeroWin.EditorTool {
 
         EditorCoroutine coroutine;
 
-        AnimState animState = AnimState.Stop;
+        WinAnimFSMState animState = WinAnimFSMState.Stop;
 
         void OnEnable() {
             winAnim = (WinAnim)target;
@@ -45,7 +39,7 @@ namespace ZeroWin.EditorTool {
 
         void OnDisable() {
             ResetAnimDisplay();
-            animState = AnimState.Stop;
+            animState = WinAnimFSMState.Stop;
         }
 
         void ResetAnimDisplay() {
@@ -61,27 +55,27 @@ namespace ZeroWin.EditorTool {
 
             GUIStyle style = new GUIStyle("Button");
             style.normal.textColor = Color.green;
-            if (animState == AnimState.Stop && GUILayout.Button("播放", style)) {
-                animState = AnimState.Playing;
+            if (animState == WinAnimFSMState.Stop && GUILayout.Button("播放", style)) {
+                animState = WinAnimFSMState.Playing;
                 ResetAnimDisplay();
                 coroutine = EditorCoroutineUtility.StartCoroutine(winAnim.DisplayAnimEnumerator(), winAnim);
             }
 
             style.normal.textColor = Color.red;
-            if (animState != AnimState.Stop && GUILayout.Button("停止", style)) {
-                animState = AnimState.Stop;
+            if (animState != WinAnimFSMState.Stop && GUILayout.Button("停止", style)) {
+                animState = WinAnimFSMState.Stop;
                 ResetAnimDisplay();
             }
 
             style.normal.textColor = Color.yellow;
-            if (animState == AnimState.Playing && GUILayout.Button("暂停", style)) {
-                animState = AnimState.Pause;
+            if (animState == WinAnimFSMState.Playing && GUILayout.Button("暂停", style)) {
+                animState = WinAnimFSMState.Pause;
                 property_isPausing.boolValue = true;
             }
 
             style.normal.textColor = Color.gray;
-            if (animState == AnimState.Pause && GUILayout.Button("继续", style)) {
-                animState = AnimState.Playing;
+            if (animState == WinAnimFSMState.Pause && GUILayout.Button("继续", style)) {
+                animState = WinAnimFSMState.Playing;
                 property_isPausing.boolValue = false;
             }
 
@@ -94,7 +88,19 @@ namespace ZeroWin.EditorTool {
             EditorGUILayout.PropertyField(property_animCurve_angle, new GUIContent("动画曲线 - 角度"));
             EditorGUILayout.PropertyField(property_animCurve_scale, new GUIContent("动画曲线 - 缩放"));
             serializedObject.ApplyModifiedProperties();
+
+            style.normal.textColor = Color.red;
+            if (GUILayout.Button("保存(尚未实现)", style)) {
+                Save();
+            }
         }
+
+
+        void Save() {
+
+        }
+
+
     }
 
 }
