@@ -14,8 +14,11 @@ namespace ZeroWin.EditorTool {
         }
 
         WinAnim winAnim;
+
         SerializedProperty property_startRect;
         SerializedProperty property_endRect;
+        SerializedProperty property_offsetAngleZ;
+
         SerializedProperty property_animCurve_pos;
         SerializedProperty property_animCurve_angle;
         SerializedProperty property_animCurve_scale;
@@ -30,6 +33,8 @@ namespace ZeroWin.EditorTool {
             winAnim = (WinAnim)target;
             property_startRect = serializedObject.FindProperty("startRect");
             property_endRect = serializedObject.FindProperty("endRect");
+            property_offsetAngleZ = serializedObject.FindProperty("offsetAngleZ");
+
             property_animCurve_pos = serializedObject.FindProperty("animCurve_pos");
             property_animCurve_angle = serializedObject.FindProperty("animCurve_angle");
             property_animCurve_scale = serializedObject.FindProperty("animCurve_scale");
@@ -82,6 +87,8 @@ namespace ZeroWin.EditorTool {
 
             EditorGUILayout.PropertyField(property_startRect, new GUIContent("起始位置"));
             EditorGUILayout.PropertyField(property_endRect, new GUIContent("结束位置"));
+            EditorGUILayout.PropertyField(property_offsetAngleZ, new GUIContent("旋转角度"));
+
             EditorGUILayout.PropertyField(property_duration, new GUIContent("动画时长"));
             EditorGUILayout.PropertyField(property_animCurve_pos, new GUIContent("动画曲线 - 位置"));
             EditorGUILayout.PropertyField(property_animCurve_angle, new GUIContent("动画曲线 - 角度"));

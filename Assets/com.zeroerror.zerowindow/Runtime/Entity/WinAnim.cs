@@ -8,13 +8,13 @@ namespace ZeroWin {
 
         struct Trans {
 
-            public Vector3 pos;
-            public Vector3 angle;
-            public Vector3 scale;
+            public Vector2 pos;
+            public float angleZ;
+            public Vector2 scale;
 
-            public Trans(Vector3 pos, Vector3 angle, Vector3 scale) {
+            public Trans(Vector2 pos, float angle, Vector2 scale) {
                 this.pos = pos;
-                this.angle = angle;
+                this.angleZ = angle;
                 this.scale = scale;
             }
 
@@ -22,6 +22,7 @@ namespace ZeroWin {
 
         public RectTransform startRect;
         public RectTransform endRect;
+        public float offsetAngleZ;
         public AnimationCurve animCurve_pos;
         public AnimationCurve animCurve_angle;
         public AnimationCurve animCurve_scale;
@@ -43,17 +44,16 @@ namespace ZeroWin {
             }
 
             var startPos = startRect.position;
-            var startAngle = startRect.eulerAngles;
+            var startAngleZ = startRect.rotation.eulerAngles.z;
             var startScale = startRect.localScale;
-            startTrans = new Trans(startPos, startAngle, startScale);
+            startTrans = new Trans(startPos, startAngleZ, startScale);
 
             var endPos = endRect.position;
-            var endAngle = endRect.eulerAngles;
+            var endAngleZ = endRect.rotation.eulerAngles.z;
             var endScale = endRect.localScale;
 
-            var offset_pos = endPos - startPos;
-            var offset_angle = endAngle - startAngle;
-            var offset_scale = endScale - startScale;
+            Vector3 offset_pos = endPos - startPos;
+            Vector3 offset_scale = endScale - startScale;
 
             while (true) {
                 while (isPausing) {
@@ -61,12 +61,12 @@ namespace ZeroWin {
                 }
 
                 var timeProportion = resTime / duration;
-                var curveValue_pos = animCurve_pos.Evaluate(timeProportion);
-                var curveValue_angle = animCurve_angle.Evaluate(timeProportion);
-                var curveValue_scale = animCurve_scale.Evaluate(timeProportion);
+                float curveValue_pos = animCurve_pos.Evaluate(timeProportion);
+                float curveValue_angle = animCurve_angle.Evaluate(timeProportion);
+                float curveValue_scale = animCurve_scale.Evaluate(timeProportion);
 
                 startRect.position = curveValue_pos * offset_pos + startPos;
-                startRect.eulerAngles = curveValue_angle * offset_angle + startAngle;
+                startRect.eulerAngles = new Vector3(0, 0, curveValue_angle * offsetAngleZ + startAngleZ);
                 startRect.localScale = curveValue_scale * offset_scale + startScale;
 
                 resTime += Time.deltaTime;
@@ -81,7 +81,7 @@ namespace ZeroWin {
             }
 
             startRect.position = startTrans.pos;
-            startRect.eulerAngles = startTrans.angle;
+            startRect.eulerAngles = new Vector3(0, 0, startTrans.angleZ);
             startRect.localScale = startTrans.scale;
             resTime = 0;
             isPausing = false;
