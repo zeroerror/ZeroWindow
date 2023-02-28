@@ -18,7 +18,7 @@ MonoBehaviour:
   m_GUID: 881d03da5b15f0f4b9ad32acc13910e3
   m_SerializeEntries:
   - m_GUID: fbfcc2966cc360e46b2acbe024f0af9e
-    m_Address: SampleUI
+    m_Address: SampleWin
     m_ReadOnly: 0
     m_SerializedLabels:
     - UI

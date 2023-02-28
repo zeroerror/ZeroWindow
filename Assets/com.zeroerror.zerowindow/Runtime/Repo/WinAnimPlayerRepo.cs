@@ -5,14 +5,20 @@ namespace ZeroWin {
 
     public class WinAnimPlayerRepo {
 
-        Dictionary<string, WinAnimPlayer> all;
+        Dictionary<string, List<WinAnimPlayer>> all;
 
         public WinAnimPlayerRepo() {
-            all = new Dictionary<string, WinAnimPlayer>();
+            all = new Dictionary<string, List<WinAnimPlayer>>();
         }
 
         public void Add(WinAnimPlayer player) {
-            all.Add(player.AnimName, player);
+            var animName = player.AnimName;
+            if (!all.TryGetValue(animName, out var list)) {
+                list = new List<WinAnimPlayer>();
+                all.Add(animName, list);
+            }
+
+            list.Add(player);
         }
 
         public void Remove(string animName) {
@@ -24,29 +30,32 @@ namespace ZeroWin {
         }
 
         public bool TryGet(string animName, out WinAnimPlayer player) {
-            return all.TryGetValue(animName, out player);
+            player = null;
+            if (!all.TryGetValue(animName, out var playerList)) {
+                return false;
+            }
+
+            var count = playerList.Count;
+            for (int i = 0; i < count; i++) {
+                var p = playerList[i];
+                if (p.State == WinAnimFSMState.Stop) {
+                    player = p;
+                    return true;
+                }
+            }
+
+            return false;
         }
 
-        public void ForeachAll(Action<WinAnimPlayer> action, Func<bool> isBreak = null) {
+        public void ForeachAll(Action<WinAnimPlayer> action) {
             var e = all.Values.GetEnumerator();
-
-            if (isBreak == null) {
-                while (e.MoveNext()) {
-                    var ui = e.Current;
-                    action.Invoke(ui);
-                }
-                return;
+            while (e.MoveNext()) {
+                var playerList = e.Current;
+                playerList.ForEach((player) => {
+                    action.Invoke(player);
+                });
             }
-
-            if (isBreak != null) {
-                while (e.MoveNext()) {
-                    var ui = e.Current;
-                    action.Invoke(ui);
-                    if (isBreak.Invoke()) {
-                        break;
-                    }
-                }
-            }
+            return;
         }
 
     }

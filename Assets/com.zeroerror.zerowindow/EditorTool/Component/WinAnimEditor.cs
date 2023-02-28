@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using Unity.EditorCoroutines.Editor;
+using ZeroWin.Extension;
 
 namespace ZeroWin.EditorTool {
 
@@ -14,26 +15,35 @@ namespace ZeroWin.EditorTool {
         SerializedProperty property_offsetAngleZ;
 
         SerializedProperty property_animCurve_pos;
-        SerializedProperty property_animCurve_angle;
+        SerializedProperty property_animCurve_angleZ;
         SerializedProperty property_animCurve_scale;
         SerializedProperty property_duration;
         SerializedProperty property_isPausing;
+        SerializedProperty property_loopType;
+        SerializedProperty property_animName;
 
         EditorCoroutine coroutine;
 
         WinAnimFSMState animState = WinAnimFSMState.Stop;
 
         void OnEnable() {
+            if(target == null) {
+                return;
+            }
+            
             winAnim = (WinAnim)target;
             property_startRect = serializedObject.FindProperty("startRect");
             property_endRect = serializedObject.FindProperty("endRect");
             property_offsetAngleZ = serializedObject.FindProperty("offsetAngleZ");
 
             property_animCurve_pos = serializedObject.FindProperty("animCurve_pos");
-            property_animCurve_angle = serializedObject.FindProperty("animCurve_angle");
+            property_animCurve_angleZ = serializedObject.FindProperty("animCurve_angleZ");
             property_animCurve_scale = serializedObject.FindProperty("animCurve_scale");
             property_duration = serializedObject.FindProperty("duration");
             property_isPausing = serializedObject.FindProperty("isPausing");
+            property_loopType = serializedObject.FindProperty("loopType");
+            property_animName = serializedObject.FindProperty("animName");
+
             ResetAnimDisplay();
         }
 
@@ -85,21 +95,12 @@ namespace ZeroWin.EditorTool {
 
             EditorGUILayout.PropertyField(property_duration, new GUIContent("动画时长"));
             EditorGUILayout.PropertyField(property_animCurve_pos, new GUIContent("动画曲线 - 位置"));
-            EditorGUILayout.PropertyField(property_animCurve_angle, new GUIContent("动画曲线 - 角度"));
+            EditorGUILayout.PropertyField(property_animCurve_angleZ, new GUIContent("动画曲线 - 角度"));
             EditorGUILayout.PropertyField(property_animCurve_scale, new GUIContent("动画曲线 - 缩放"));
+            EditorGUILayout.PropertyField(property_loopType, new GUIContent("循环类型"));
+            EditorGUILayout.PropertyField(property_animName, new GUIContent("动画名称"));
             serializedObject.ApplyModifiedProperties();
-
-            style.normal.textColor = Color.red;
-            if (GUILayout.Button("保存(尚未实现)", style)) {
-                Save();
-            }
         }
-
-
-        void Save() {
-
-        }
-
 
     }
 

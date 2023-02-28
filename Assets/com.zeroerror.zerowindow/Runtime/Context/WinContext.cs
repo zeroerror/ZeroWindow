@@ -40,6 +40,7 @@ namespace ZeroWin {
             this.WinService = service;
 
             WinBaseDomain.Inject(this);
+            WinAnimDomain.Inject(this);
             Factory.Inject(this);
         }
 

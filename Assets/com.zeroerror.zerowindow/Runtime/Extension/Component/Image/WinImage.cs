@@ -1,6 +1,6 @@
 using UnityEngine.UI;
 
-namespace ZeroWin {
+namespace ZeroWin.Extension {
 
     public class WinImage : Image {
 

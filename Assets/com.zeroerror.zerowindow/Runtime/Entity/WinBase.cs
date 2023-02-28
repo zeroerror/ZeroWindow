@@ -38,15 +38,6 @@ namespace ZeroWin {
         }
 
         /// Summary
-        /// Called Every Frame
-        /// </summary>
-        protected virtual void OnTick() { }
-
-        public void Tick() {
-            OnTick();
-        }
-
-        /// Summary
         /// Called When UI Destroyed
         /// </summary>
         protected virtual void OnDispose() { }

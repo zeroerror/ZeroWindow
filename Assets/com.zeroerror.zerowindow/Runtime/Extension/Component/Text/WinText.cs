@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ZeroWin {
+namespace ZeroWin.Extension {
 
     public class WinText : Text {
 

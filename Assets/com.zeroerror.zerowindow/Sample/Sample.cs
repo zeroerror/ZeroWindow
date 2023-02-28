@@ -8,7 +8,8 @@ namespace ZeroWin.Sample {
     public class Sample : MonoBehaviour {
 
         WinCore windowCore;
-        bool isShow = false;
+        bool isShow;
+        bool isInit;
 
         void Awake() {
             windowCore = new WinCore(new Vector2(1920, 1080), "UI");
@@ -24,11 +25,14 @@ namespace ZeroWin.Sample {
                 // Show UI
                 SampleWin sampleUI = windowCore.API.Show("SampleWin", "Default") as SampleWin;
                 isShow = true;
+
+                isInit = true;
             };
             action.Invoke();
         }
 
         void Update() {
+            if (!isInit) return;
 
             if (Input.GetKeyDown(KeyCode.Space)) {
                 if (isShow) {
@@ -39,6 +43,8 @@ namespace ZeroWin.Sample {
                     isShow = true;
                 }
             }
+
+            windowCore.Tick(Time.deltaTime);
 
         }
     }

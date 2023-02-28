@@ -25,10 +25,6 @@ namespace ZeroWin {
         }
 
         public void Tick(float dt) {
-
-            var winBaseDomain = context.WinBaseDomain;
-            winBaseDomain.TickAllWinBase();
-
             var winAnimDomain = context.WinAnimDomain;
             winAnimDomain.TickAllAnimPlayer(dt);
         }

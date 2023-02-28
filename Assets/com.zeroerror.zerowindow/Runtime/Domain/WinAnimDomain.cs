@@ -33,12 +33,11 @@ namespace ZeroWin {
             var animPlayerRepo = context.AnimPlayerRepo;
             if (!animPlayerRepo.TryGet(winAnimName, out var animPlayer)) {
                 var factory = context.Factory;
-                animPlayer = factory.CreateAnimPlayer(winAnimName);
-                animPlayer.SetSeltAndTar(self, tar);
+                animPlayer = factory.CreateAnimPlayer(winAnimName, self);
+                animPlayer.SetTarget(tar);
                 animPlayerRepo.Add(animPlayer);
             }
 
-            animPlayer.SetSeltAndTar(self, tar);
             animPlayer.EnterPlayining();
         }
 

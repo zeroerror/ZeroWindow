@@ -6,12 +6,12 @@ namespace ZeroWin {
 
         public Vector2 pos;
         public float angleZ;
-        public Vector2 scale;
+        public Vector2 localScale;
 
-        public RectTransformModel(Vector2 pos, float angle, Vector2 scale) {
+        public RectTransformModel(Vector2 pos, float angle, Vector2 localScale) {
             this.pos = pos;
             this.angleZ = angle;
-            this.scale = scale;
+            this.localScale = localScale;
         }
 
     }

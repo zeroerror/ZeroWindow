@@ -13,14 +13,6 @@ namespace ZeroWin {
             this.context = context;
         }
 
-        public void TickAllWinBase() {
-            var winBaseRepo = context.WinBaseRepo;
-            winBaseRepo.ForeachAll(winBase => {
-                winBase.Tick();
-            });
-
-        }
-
         public WinBase Show(string windowName, string layerName, params object[] args) {
             var repo = context.WinBaseRepo;
             if (!repo.TryGet(windowName, out var window)) {

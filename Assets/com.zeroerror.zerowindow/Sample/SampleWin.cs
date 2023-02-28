@@ -16,16 +16,20 @@ namespace ZeroWin.Sample {
         protected override void OnShow() {
             Debug.Log("SampleWin: OnDisplay");
 
-            var start = transform.Find("start").gameObject;
-            WinExtension.PlayAnim("anim_win_test",start);
+            var anim1 = transform.Find("anim1").gameObject;
+            var anim2 = transform.Find("anim2").gameObject;
+            var anim3 = transform.Find("anim3").gameObject;
+            var anim4 = transform.Find("anim4").gameObject;
+            var anim5 = transform.Find("anim5").gameObject;
+            WinExtension.PlayAnim("anim_win_test",anim1);
+            WinExtension.PlayAnim("anim_win_test",anim2);
+            WinExtension.PlayAnim("anim_win_test",anim3);
+            WinExtension.PlayAnim("anim_win_test",anim4);
+            WinExtension.PlayAnim("anim_win_test",anim5);
         }
 
         protected override void OnHide() {
             Debug.Log("SampleWin: OnHide");
-        }
-
-        protected override void OnTick() {
-            Debug.Log("SampleWin: OnTick");
         }
 
         void OnPointerDown(PointerEventData eventData, params object[] args) {
