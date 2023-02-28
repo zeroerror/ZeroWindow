@@ -35,25 +35,26 @@ namespace ZeroWin {
             return window;
         }
 
-        public WinAnimPlayer CreateAnimPlayer(string winAnimName, GameObject self) {
+        public WinAnimPlayer CreateAnimPlayer(string animElementName, GameObject self) {
             var winAnim = self.transform.GetComponent<WinAnim>();
-            if (winAnim.animName != winAnimName) {
-                Debug.LogError($"GameObject {self.name} WinAnim {winAnimName} 不存在");
+
+            if (!winAnim.TryGetAnimElement(animElementName, out var animElement)) {
+                Debug.LogError($"Anim {animElementName} 不存在");
                 return null;
             }
 
             WinAnimModel animModel = new WinAnimModel();
-            animModel.offsetModel = winAnim.GetOffsetModel();
-            animModel.animCurve_pos = winAnim.animCurve_pos;
-            animModel.animCurve_angleZ = winAnim.animCurve_angleZ;
-            animModel.animCurve_scale = winAnim.animCurve_scale;
-            animModel.duration = winAnim.duration;
-            animModel.loopType = winAnim.loopType;
-            animModel.animName = winAnimName;
+            animModel.offsetModel = animElement.GetOffsetModel();
+            animModel.animCurve_pos = animElement.animCurve_pos;
+            animModel.animCurve_angleZ = animElement.animCurve_angleZ;
+            animModel.animCurve_scale = animElement.animCurve_scale;
+            animModel.duration = animElement.duration;
+            animModel.loopType = animElement.loopType;
+            animModel.animName = animElementName;
 
             WinAnimPlayer animPlayer = new WinAnimPlayer(animModel);
             animPlayer.SetSelt(self);
-            animPlayer.SetAnimName(winAnimName);
+            animPlayer.SetAnimName(animElementName);
             return animPlayer;
         }
 

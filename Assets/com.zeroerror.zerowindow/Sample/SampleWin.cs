@@ -10,7 +10,7 @@ namespace ZeroWin.Sample {
             Debug.Log("SampleWin: OnCreate");
 
             WinExtension.OnPointerDown(gameObject, "btn", OnPointerDown, "Hello World", 123);
-            WinExtension.OnPointerDrag(gameObject, "btn", OnPointerDrag, "Hello World", 123);
+            WinExtension.OnPointerDrag(gameObject, "btn", OnPointerDrag, "Hello World Draging------", 123);
         }
 
         protected override void OnShow() {
