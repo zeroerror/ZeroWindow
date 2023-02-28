@@ -12,8 +12,9 @@ namespace ZeroWin.EditorTool {
 
         WinAnim winAnim;
         WinAnimElementModel[] elements;
-        SerializedProperty property_animElements;
-        EditorCoroutine[] coroutineArray;
+        SerializedProperty property_elements;
+        EditorCoroutine coroutine;
+        const int MAX_COROUNTINE_COUNT = 10;
 
         void OnEnable() {
             if (target == null) {
@@ -21,85 +22,121 @@ namespace ZeroWin.EditorTool {
             }
 
             winAnim = (WinAnim)target;
-            elements = winAnim.animElements;
-            property_animElements = serializedObject.FindProperty("animElements");
+            elements = winAnim.elements;
 
-            ResetAllElement();
-            coroutineArray = new EditorCoroutine[10];   // 启用协程数量限制
+            if (elements == null) {
+                return;
+            }
+
+            var len = elements.Length;
+            for (int i = 0; i < len; i++) {
+                elements[i].RestoreBeforeTrans();
+            }
+
+            property_elements = serializedObject.FindProperty("elements");
         }
 
         void OnDisable() {
-            ResetAllElement();
-            if (coroutineArray == null) {
+            ResetAllToBefore();
+            ResetCoroutine();
+            selectedElementName = null;
+        }
+
+        #region [Reset]
+
+        void ResetAllToBefore() {
+            if (elements == null) {
                 return;
             }
 
-            var corLength = coroutineArray.Length;
-            for (int i = 0; i < corLength; i++) {
-                var cor = coroutineArray[i];
-                if (cor == null) {
+            var len = elements.Length;
+            for (int i = 0; i < len; i++) {
+                var element = elements[i];
+                if (element == null || element.AnimState == WinAnimFSMState.Stop) {
                     continue;
                 }
-
-                EditorCoroutineUtility.StopCoroutine(cor);
+                element.ResetToBefore();
             }
-            coroutineArray = null;
         }
 
-        void ResetAllElement() {
-            if (coroutineArray == null) {
+        void ResetCoroutine() {
+            if (coroutine == null) {
                 return;
             }
-            winAnim.ResetAllElement();
+
+            EditorCoroutineUtility.StopCoroutine(coroutine);
+            coroutine = null;
         }
+
+        #endregion
+
+        #region [GUI]
+
+        string selectedElementName;
 
         public override void OnInspectorGUI() {
             serializedObject.Update();
 
-            EditorGUILayout.PropertyField(property_animElements, new GUIContent("动画元素"));
+            EditorGUILayout.PropertyField(property_elements, new GUIContent("动画元素"));
 
             var elementCount = elements?.Length;
             for (int i = 0; i < elementCount; i++) {
-                ShowOneElement(elements[i], i);
+                var element = elements[i];
+                if (!element.IsSetRight()) {
+                    continue;
+                }
+
+                if (selectedElementName != null && selectedElementName != element.elementName) {
+                    continue;
+                }
+
+                ShowOneElement(elements[i]);
             }
 
             serializedObject.ApplyModifiedProperties();
         }
 
-        void ShowOneElement(WinAnimElementModel element, int index) {
+        void ShowOneElement(WinAnimElementModel element) {
             var animState = element.AnimState;
-            var property_isPausing = element.IsPausing;
-            var property_startRect = element.startRect;
-            var property_endRect = element.endRect;
-            var property_offsetAngleZ = element.offsetAngleZ;
+            var elementName = element.elementName;
+            var buttonText = $"播放动画 {elementName}";
 
             GUIStyle style = new GUIStyle("Button");
             style.normal.textColor = Color.green;
-            if (animState == WinAnimFSMState.Stop && GUILayout.Button("播放", style)) {
+            if (animState == WinAnimFSMState.Stop && GUILayout.Button(buttonText, style)) {
+                element.RestoreBeforeTrans();
                 element.SetAnimState(WinAnimFSMState.Playing);
-                element.Reset();
-                coroutineArray[index] = EditorCoroutineUtility.StartCoroutine(element.DisplayCoroutine(), winAnim);
+                coroutine = EditorCoroutineUtility.StartCoroutine(element.DisplayCoroutine(), winAnim);
+
+                selectedElementName = elementName;
+                Debug.Log($"播放动画 {elementName}");
             }
 
             style.normal.textColor = Color.red;
             if (animState != WinAnimFSMState.Stop && GUILayout.Button("停止", style)) {
-                element.SetAnimState(WinAnimFSMState.Stop);
-                element.Reset();
+                element.ResetToBefore();
+                ResetCoroutine();
+                Debug.Log($"停止动画 {elementName}");
+                selectedElementName = null;
             }
 
             style.normal.textColor = Color.yellow;
             if (animState == WinAnimFSMState.Playing && GUILayout.Button("暂停", style)) {
                 element.SetAnimState(WinAnimFSMState.Pause);
-                property_isPausing = true;
+                element.SetPause(true);
+                Debug.Log($"暂停动画 {elementName}");
             }
 
             style.normal.textColor = Color.gray;
             if (animState == WinAnimFSMState.Pause && GUILayout.Button("继续", style)) {
                 element.SetAnimState(WinAnimFSMState.Playing);
-                property_isPausing = false;
+                element.SetPause(false);
+                Debug.Log($"继续动画 {elementName}");
             }
 
         }
+
+        #endregion
 
     }
 

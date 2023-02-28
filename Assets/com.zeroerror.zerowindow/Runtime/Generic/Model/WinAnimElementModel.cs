@@ -7,74 +7,86 @@ namespace ZeroWin.Generic {
     [Serializable]
     public class WinAnimElementModel {
 
-        public RectTransform startRect;
-        public RectTransform endRect;
+        public RectTransformModel beforeTrans;
+        public RectTransform selfTrans;
+        public RectTransform tarTrans;
 
         public float offsetAngleZ;
         public AnimationCurve animCurve_pos;
         public AnimationCurve animCurve_angleZ;
         public AnimationCurve animCurve_scale;
-
-        public RectTransformModel startTrans;
+        public WinAnimLoopType loopType;
+        public string elementName;
+        public float duration;
 
         float resTime;
 
-        public float duration;
-
-        bool isPausing;
-        public bool IsPausing => isPausing;
-
-        public WinAnimLoopType loopType;
-        public string animElementName;
+        bool isPaused;
+        public bool IsPaused => isPaused;
+        public void SetPause(bool isPause) => this.isPaused = isPause;
 
         // For Editor Preview
         WinAnimFSMState animState;
         public WinAnimFSMState AnimState => animState;
-        public void SetAnimState(WinAnimFSMState state) {
-            animState = state;
-        }
+        public void SetAnimState(WinAnimFSMState state) => animState = state;
 
-        public void Reset() {
-            startRect.position = startTrans.pos;
-            startRect.eulerAngles = new Vector3(0, 0, startTrans.angleZ);
-            startRect.localScale = startTrans.localScale;
+        public void ResetToBefore() {
+            if (!IsSetRight()) {
+                return;
+            }
+
+            selfTrans.position = beforeTrans.pos;
+            selfTrans.eulerAngles = new Vector3(0, 0, beforeTrans.angleZ);
+            selfTrans.localScale = beforeTrans.localScale;
             resTime = 0;
-            isPausing = false;
+            isPaused = false;
             animState = WinAnimFSMState.Stop;
         }
 
+        public void RestoreBeforeTrans() {
+            if (!IsSetRight()) {
+                return;
+            }
+            var startPos = selfTrans.position;
+            var startAngleZ = selfTrans.rotation.eulerAngles.z;
+            var startScale = selfTrans.localScale;
+            beforeTrans = new RectTransformModel(startPos, startAngleZ, startScale);
+        }
+
         public RectTransformModel GetOffsetModel() {
-            var startPos = startRect.position;
-            var endPos = endRect.position;
+            if (!IsSetRight()) {
+                return default;
+            }
+
+            var startPos = selfTrans.position;
+            var endPos = tarTrans.position;
             Vector3 offset_pos = endPos - startPos;
 
-            var startScale = startRect.localScale;
-            var endScale = endRect.localScale;
+            var startScale = selfTrans.localScale;
+            var endScale = tarTrans.localScale;
             Vector3 offset_scale = endScale - startScale;
 
             return new RectTransformModel(offset_pos, offsetAngleZ, offset_scale);
         }
 
         public IEnumerator DisplayCoroutine() {
-            if (startRect == null || endRect == null) {
+            if (!IsSetRight()) {
                 yield break;
             }
 
-            var startPos = startRect.position;
-            var startAngleZ = startRect.rotation.eulerAngles.z;
-            var startScale = startRect.localScale;
+            var startPos = selfTrans.position;
+            var startAngleZ = selfTrans.rotation.eulerAngles.z;
+            var startScale = selfTrans.localScale;
 
-            startTrans = new RectTransformModel(startPos, startAngleZ, startScale);
-
-            var endPos = endRect.position;
-            var endAngleZ = endRect.rotation.eulerAngles.z;
-            var endScale = endRect.localScale;
+            var endPos = tarTrans.position;
+            var endAngleZ = tarTrans.rotation.eulerAngles.z;
+            var endScale = tarTrans.localScale;
 
             Vector3 offset_pos = endPos - startPos;
             Vector3 offset_scale = endScale - startScale;
 
             while (true) {
-                while (isPausing) {
+                while (isPaused) {
                     yield return null;
                 }
 
@@ -83,14 +95,18 @@ namespace ZeroWin.Generic {
                 float curveValue_angle = animCurve_angleZ.Evaluate(timeProportion);
                 float curveValue_scale = animCurve_scale.Evaluate(timeProportion);
 
-                startRect.position = curveValue_pos * offset_pos + startPos;
-                startRect.eulerAngles = new Vector3(0, 0, curveValue_angle * offsetAngleZ + startAngleZ);
-                startRect.localScale = curveValue_scale * offset_scale + startScale;
+                selfTrans.position = curveValue_pos * offset_pos + startPos;
+                selfTrans.eulerAngles = new Vector3(0, 0, curveValue_angle * offsetAngleZ + startAngleZ);
+                selfTrans.localScale = curveValue_scale * offset_scale + startScale;
 
                 resTime += Time.deltaTime;
                 resTime = resTime > duration ? 0 : resTime;
                 yield return null;
             }
+        }
+
+        public bool IsSetRight() {
+            return selfTrans != null && tarTrans != null;
         }
 
     }
