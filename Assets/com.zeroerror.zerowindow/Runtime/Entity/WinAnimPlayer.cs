@@ -76,6 +76,10 @@ namespace ZeroWin {
             animModel.loopType = loopType;
         }
 
+        public void ResumeAnim() {
+            state = WinAnimFSMState.Playing;
+        }
+
         void RefreshStateEveryPeriod() {
             if (animModel.loopType == WinAnimLoopType.OnceAndStay) {
                 state = WinAnimFSMState.Stop;

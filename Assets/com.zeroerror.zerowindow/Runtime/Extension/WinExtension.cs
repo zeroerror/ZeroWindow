@@ -120,6 +120,39 @@ namespace ZeroWin.Extension {
             aniDomain.SetAnimLoopType(self, winAnimName, loopType);
         }
 
+        public static void PauseAnim(GameObject self, string winAnimName) {
+            var animPlayerRepo = winContext.AnimPlayerRepo;
+            var key = self.GetInstanceID();
+            if (!animPlayerRepo.TryGet(key, winAnimName, out var animPlayer)) {
+                WinLogger.LogWarning($"动画播放器不存在 名称 {winAnimName}  key {key}");
+                return;
+            }
+
+            animPlayer.EnterPause();
+        }
+
+        public static void ResumeAnim(GameObject self, string winAnimName) {
+            var animPlayerRepo = winContext.AnimPlayerRepo;
+            var key = self.GetInstanceID();
+            if (!animPlayerRepo.TryGet(key, winAnimName, out var animPlayer)) {
+                WinLogger.LogWarning($"动画播放器不存在 名称 {winAnimName}  key {key}");
+                return;
+            }
+
+            animPlayer.ResumeAnim();
+        }
+
+        public static void StopAnim(GameObject self, string winAnimName) {
+            var animPlayerRepo = winContext.AnimPlayerRepo;
+            var key = self.GetInstanceID();
+            if (!animPlayerRepo.TryGet(key, winAnimName, out var animPlayer)) {
+                WinLogger.LogWarning($"动画播放器不存在 名称 {winAnimName}  key {key}");
+                return;
+            }
+
+            animPlayer.EnterStop();
+        }
+
         #endregion
 
     }
