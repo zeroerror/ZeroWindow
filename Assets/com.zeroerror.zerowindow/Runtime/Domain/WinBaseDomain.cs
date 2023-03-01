@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using ZeroWin.Logger;
 
 namespace ZeroWin {
 
@@ -38,7 +39,7 @@ namespace ZeroWin {
         public void Hide(string windowName) {
             var repo = context.WinBaseRepo;
             if (!repo.TryGet(windowName, out var ui)) {
-                Debug.LogWarning($"Win {windowName} 不存在");
+                WinLogger.LogWarning($"Win {windowName} 不存在");
                 return;
             }
             ui.Hide();
@@ -62,7 +63,7 @@ namespace ZeroWin {
         public void Dispose(string windowName) {
             var repo = context.WinBaseRepo;
             if (!repo.TryGet(windowName, out var window)) {
-                Debug.LogWarning($"Win {windowName} 不存在");
+                WinLogger.LogWarning($"Win {windowName} 不存在");
                 return;
             }
             window.Dispose();
@@ -79,7 +80,7 @@ namespace ZeroWin {
         public void Text_SetFontSize(GameObject windowGO, string path, int size) {
             Text text = null;
             if (!_CheckComponent<Text>(windowGO, path, ref text)) {
-                Debug.LogWarning(windowGO.name + ": " + path + ": Text Component Not Found!");
+                WinLogger.LogWarning(windowGO.name + ": " + path + ": Text Component Not Found!");
                 return;
             };
 
@@ -89,7 +90,7 @@ namespace ZeroWin {
         public void Text_SetColor(GameObject windowGO, string path, string color) {
             Text text = null;
             if (!_CheckComponent<Text>(windowGO, path, ref text)) {
-                Debug.LogWarning(windowGO.name + ": " + path + ": Text Component Not Found!");
+                WinLogger.LogWarning(windowGO.name + ": " + path + ": Text Component Not Found!");
                 return;
             };
 
@@ -100,7 +101,7 @@ namespace ZeroWin {
         public void Text_SetAlignment(GameObject windowGO, string path, TextAnchor textAnchor) {
             Text text = null;
             if (!_CheckComponent<Text>(windowGO, path, ref text)) {
-                Debug.LogWarning(windowGO.name + ": " + path + ": Text Component Not Found!");
+                WinLogger.LogWarning(windowGO.name + ": " + path + ": Text Component Not Found!");
                 return;
             };
 
@@ -110,7 +111,7 @@ namespace ZeroWin {
         public void Text_SetText(GameObject windowGO, string path, object content) {
             Text text = null;
             if (!_CheckComponent<Text>(windowGO, path, ref text)) {
-                Debug.LogWarning(windowGO.name + ": " + path + ": Text Component Not Found!");
+                WinLogger.LogWarning(windowGO.name + ": " + path + ": Text Component Not Found!");
                 return;
             };
 
@@ -120,7 +121,7 @@ namespace ZeroWin {
         public string Input_GetText(GameObject windowGO, string path) {
             InputField inputField = null;
             if (!_CheckComponent<InputField>(windowGO, path, ref inputField)) {
-                Debug.LogWarning(windowGO.name + ": " + path + ": InputField Component Not Found!");
+                WinLogger.LogWarning(windowGO.name + ": " + path + ": InputField Component Not Found!");
                 return "";
             }
 
@@ -133,7 +134,7 @@ namespace ZeroWin {
         public void Image_SetFillAmount(GameObject windowGO, string path, float fill) {
             Image image = null;
             if (!_CheckComponent<Image>(windowGO, path, ref image)) {
-                Debug.LogWarning(windowGO.name + ": " + path + ": Image Component Not Found!");
+                WinLogger.LogWarning(windowGO.name + ": " + path + ": Image Component Not Found!");
                 return;
             }
 
@@ -143,7 +144,7 @@ namespace ZeroWin {
         public void Image_SetImage(GameObject windowGO, string path, int resourceID) {
             Image image = null;
             if (!_CheckComponent<Image>(windowGO, path, ref image)) {
-                Debug.LogWarning(windowGO.name + ": " + path + ": Image Component Not Found!");
+                WinLogger.LogWarning(windowGO.name + ": " + path + ": Image Component Not Found!");
                 return;
             }
 
@@ -153,7 +154,7 @@ namespace ZeroWin {
         public void Image_SetColor(GameObject windowGO, string path, string color) {
             Image image = null;
             if (!_CheckComponent<Image>(windowGO, path, ref image)) {
-                Debug.LogWarning(windowGO.name + ": " + path + ": Image Component Not Found!");
+                WinLogger.LogWarning(windowGO.name + ": " + path + ": Image Component Not Found!");
                 return;
             }
 
@@ -164,7 +165,7 @@ namespace ZeroWin {
         public void RawImage_SetImage(GameObject windowGO, string path, int resourceID) {
             RawImage rawImage = null;
             if (!_CheckComponent<RawImage>(windowGO, path, ref rawImage)) {
-                Debug.LogWarning(windowGO.name + ": " + path + ": RawImage Component Not Found!");
+                WinLogger.LogWarning(windowGO.name + ": " + path + ": RawImage Component Not Found!");
                 return;
             }
 

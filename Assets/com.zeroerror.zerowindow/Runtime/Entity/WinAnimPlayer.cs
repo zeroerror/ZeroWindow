@@ -72,6 +72,10 @@ namespace ZeroWin {
             }
         }
 
+        public void SetLoopType(WinAnimLoopType loopType) {
+            animModel.loopType = loopType;
+        }
+
         void RefreshStateEveryPeriod() {
             if (animModel.loopType == WinAnimLoopType.OnceAndStay) {
                 state = WinAnimFSMState.Stop;
@@ -92,6 +96,9 @@ namespace ZeroWin {
             self.transform.localScale = beforeModel.localScale;
         }
 
+
+        #region [FSM]
+
         public void EnterPlayining() {
             state = WinAnimFSMState.Playing;
             var rectTrans = self.GetComponent<RectTransform>();
@@ -105,6 +112,8 @@ namespace ZeroWin {
         public void EnterStop() {
             state = WinAnimFSMState.Stop;
         }
+
+        #endregion
 
     }
 }

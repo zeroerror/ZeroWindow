@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using ZeroWin.Logger;
 
 namespace ZeroWin {
 
@@ -66,7 +67,7 @@ namespace ZeroWin {
                 curSortingOrder += 10;
                 ResetRect(layerRct);
                 layerDic.Add(layerName, layerRct.transform);
-                Debug.Log($"{nameof(WinService)}: Add Layer: {layerName}");
+                WinLogger.Log($"{nameof(WinService)}: Add Layer: {layerName}");
             }
 
             var eventSystem = new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule), typeof(BaseInput));
@@ -82,7 +83,7 @@ namespace ZeroWin {
                 canvas.overrideSorting = true;
                 canvas.sortingLayerName = layerName;
             } else {
-                Debug.Log($"{nameof(WinService)}: window {windowName} is already exist");
+                WinLogger.Log($"{nameof(WinService)}: window {windowName} is already exist");
             }
 
             int2 sortingInfo = sortingInfoDic[layerName];

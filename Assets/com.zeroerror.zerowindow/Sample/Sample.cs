@@ -29,6 +29,8 @@ namespace ZeroWin.Sample {
                 isInit = true;
             };
             action.Invoke();
+
+            ZeroWin.Logger.WinLogger.isEnabled = true;
         }
 
         void Update() {
@@ -46,6 +48,11 @@ namespace ZeroWin.Sample {
 
             windowCore.Tick(Time.deltaTime);
 
+        }
+
+        void OnDestroy() {
+            windowCore.Dispose();
+            ZeroWin.Logger.WinLogger.isEnabled = false;
         }
     }
 

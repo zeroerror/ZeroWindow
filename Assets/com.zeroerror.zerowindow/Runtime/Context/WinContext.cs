@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using ZeroWin;
+using ZeroWin.Logger;
 
 namespace ZeroWin {
 
@@ -34,7 +34,7 @@ namespace ZeroWin {
                 var ui = uiAssets[i];
                 var uiName = ui.name;
                 WinAssets.Add(uiName, ui);
-                Debug.Log($"外部注入资产 {uiName}");
+                WinLogger.Log($"外部注入资产 {uiName}");
             }
 
             this.WinService = service;

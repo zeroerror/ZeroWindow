@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEditor;
 using UnityEngine.EventSystems;
 using ZeroWin.Extension;
+using ZeroWin.Logger;
 
 namespace ZeroWin.EditorTool {
 
@@ -41,7 +42,7 @@ namespace ZeroWin.EditorTool {
             if (selectedGO == null) {
                 GameObject canvasGO = GameObject.FindObjectOfType<Canvas>()?.gameObject;
                 if (canvasGO == null) {
-                    Debug.Log("当前没有Canvas, 创建Canvas");
+                    WinLogger.Log("当前没有Canvas, 创建Canvas");
                     canvasGO = new GameObject();
 
                     var canvas = canvasGO.AddComponent<Canvas>();
@@ -53,7 +54,7 @@ namespace ZeroWin.EditorTool {
 
                 GameObject eventSystemGO = GameObject.FindObjectOfType<EventSystem>()?.gameObject;
                 if (eventSystemGO == null) {
-                    Debug.Log("当前没有Canvas, 创建Canvas");
+                    WinLogger.Log("当前没有Canvas, 创建Canvas");
                     eventSystemGO = new GameObject();
                     eventSystemGO.AddComponent<EventSystem>();
                     eventSystemGO.AddComponent<StandaloneInputModule>();

@@ -3,7 +3,7 @@ using UnityEditor;
 using Unity.EditorCoroutines.Editor;
 using ZeroWin.Extension;
 using ZeroWin.Generic;
-using System.Collections.Generic;
+using ZeroWin.Logger;
 
 namespace ZeroWin.EditorTool {
 
@@ -109,14 +109,14 @@ namespace ZeroWin.EditorTool {
                 coroutine = EditorCoroutineUtility.StartCoroutine(element.DisplayCoroutine(), winAnim);
 
                 selectedElementName = elementName;
-                Debug.Log($"播放动画 {elementName}");
+                WinLogger.Log($"播放动画 {elementName}");
             }
 
             style.normal.textColor = Color.red;
             if (animState != WinAnimFSMState.Stop && GUILayout.Button("停止", style)) {
                 element.ResetToBefore();
                 ResetCoroutine();
-                Debug.Log($"停止动画 {elementName}");
+                WinLogger.Log($"停止动画 {elementName}");
                 selectedElementName = null;
             }
 
@@ -124,14 +124,14 @@ namespace ZeroWin.EditorTool {
             if (animState == WinAnimFSMState.Playing && GUILayout.Button("暂停", style)) {
                 element.SetAnimState(WinAnimFSMState.Pause);
                 element.SetPause(true);
-                Debug.Log($"暂停动画 {elementName}");
+                WinLogger.Log($"暂停动画 {elementName}");
             }
 
             style.normal.textColor = Color.gray;
             if (animState == WinAnimFSMState.Pause && GUILayout.Button("继续", style)) {
                 element.SetAnimState(WinAnimFSMState.Playing);
                 element.SetPause(false);
-                Debug.Log($"继续动画 {elementName}");
+                WinLogger.Log($"继续动画 {elementName}");
             }
 
         }

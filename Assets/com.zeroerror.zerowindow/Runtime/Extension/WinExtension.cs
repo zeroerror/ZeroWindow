@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using ZeroWin.Generic;
+using ZeroWin.Logger;
 
 namespace ZeroWin.Extension {
 
@@ -67,7 +69,7 @@ namespace ZeroWin.Extension {
 
         public static void Slider_SetVal(GameObject trans, string path, float val) {
             if (!TryGetComponentByPath<Slider>(trans, path, out var slider)) {
-                Debug.LogWarning($"Slider {path} 不存在");
+                WinLogger.LogWarning($"Slider {path} 不存在");
                 return;
             };
 
@@ -110,7 +112,12 @@ namespace ZeroWin.Extension {
 
         public static void PlayAnimWithTarget(string winAnimName, GameObject self, GameObject tar) {
             var aniDomain = winContext.WinAnimDomain;
-            aniDomain.PlayAnimWithTarget(winAnimName, self, tar);
+            aniDomain.PlayAnimWithTarget(self, winAnimName, tar);
+        }
+
+        public static void SetAnimLoopType(GameObject self, string winAnimName, WinAnimLoopType loopType) {
+            var aniDomain = winContext.WinAnimDomain;
+            aniDomain.SetAnimLoopType(self, winAnimName, loopType);
         }
 
         #endregion

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using ZeroWin.Generic;
 using ZeroWin.Extension;
+using ZeroWin.Logger;
 
 namespace ZeroWin {
 
@@ -19,7 +20,7 @@ namespace ZeroWin {
         public WinBase CreateWinBase(string windowName) {
             var windowAssets = context.WinAssets;
             if (!windowAssets.TryGetValue(windowName, out var windowPrefab)) {
-                Debug.LogError($"Win {windowName} 不存在");
+                WinLogger.LogError($"Win {windowName} 不存在");
                 return null;
             }
 
@@ -39,7 +40,7 @@ namespace ZeroWin {
             var winAnim = self.transform.GetComponent<WinAnim>();
 
             if (!winAnim.TryGetAnimElement(animElementName, out var animElement)) {
-                Debug.LogError($"Anim {animElementName} 不存在");
+                WinLogger.LogError($"Anim {animElementName} 不存在");
                 return null;
             }
 
