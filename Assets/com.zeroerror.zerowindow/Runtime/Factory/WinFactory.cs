@@ -47,11 +47,13 @@ namespace ZeroWin {
             WinAnimModel animModel = new WinAnimModel();
             animModel.offsetModel = animElement.GetOffsetModel();
             animModel.animCurve_pos = animElement.animCurve_pos;
-            animModel.animCurve_angleZ = animElement.animCurve_angleZ;
+            animModel.animCurve_angle = animElement.animCurve_angle;
             animModel.animCurve_scale = animElement.animCurve_scale;
             animModel.duration = animElement.duration;
             animModel.loopType = animElement.loopType;
             animModel.animName = animElementName;
+            animModel.usedCustomOffsetAngle = animElement.usedCustomOffsetAngle;
+            animModel.customOffsetAngle = animElement.customOffsetAngleZ;
 
             WinAnimPlayer animPlayer = new WinAnimPlayer(animModel);
             animPlayer.SetSelt(self);

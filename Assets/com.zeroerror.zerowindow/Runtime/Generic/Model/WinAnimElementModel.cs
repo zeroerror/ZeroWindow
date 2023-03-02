@@ -8,12 +8,16 @@ namespace ZeroWin.Generic {
     public class WinAnimElementModel {
 
         public RectTransformModel beforeTrans;
+
         public RectTransform selfTrans;
         public RectTransform tarTrans;
 
-        public float offsetAngleZ;
+        [Header("使用自定义旋转角度")]
+        public bool usedCustomOffsetAngle;
+        public float customOffsetAngleZ;
+
         public AnimationCurve animCurve_pos;
-        public AnimationCurve animCurve_angleZ;
+        public AnimationCurve animCurve_angle;
         public AnimationCurve animCurve_scale;
         public WinAnimLoopType loopType;
         public string elementName;
@@ -36,7 +40,7 @@ namespace ZeroWin.Generic {
             }
 
             selfTrans.position = beforeTrans.pos;
-            selfTrans.eulerAngles = new Vector3(0, 0, beforeTrans.angleZ);
+            selfTrans.eulerAngles = new Vector3(0, 0, beforeTrans.angle);
             selfTrans.localScale = beforeTrans.localScale;
             resTime = 0;
             isPaused = false;
@@ -66,7 +70,7 @@ namespace ZeroWin.Generic {
             var endScale = tarTrans.localScale;
             Vector3 offset_scale = endScale - startScale;
 
-            return new RectTransformModel(offset_pos, offsetAngleZ, offset_scale);
+            return new RectTransformModel(offset_pos, customOffsetAngleZ, offset_scale);
         }
 
         public IEnumerator DisplayCoroutine() {
@@ -82,6 +86,8 @@ namespace ZeroWin.Generic {
             var endAngleZ = tarTrans.rotation.eulerAngles.z;
             var endScale = tarTrans.localScale;
 
+            var offsetAngleZ = usedCustomOffsetAngle ? customOffsetAngleZ : endAngleZ - startAngleZ;
+
             Vector3 offset_pos = endPos - startPos;
             Vector3 offset_scale = endScale - startScale;
 
@@ -92,7 +98,7 @@ namespace ZeroWin.Generic {
 
                 var timeProportion = resTime / duration;
                 float curveValue_pos = animCurve_pos.Evaluate(timeProportion);
-                float curveValue_angle = animCurve_angleZ.Evaluate(timeProportion);
+                float curveValue_angle = animCurve_angle.Evaluate(timeProportion);
                 float curveValue_scale = animCurve_scale.Evaluate(timeProportion);
 
                 selfTrans.position = curveValue_pos * offset_pos + startPos;

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using ZeroWin.Generic;
@@ -36,11 +37,14 @@ namespace ZeroWin {
             if (!animPlayerRepo.TryGet(key, winAnimName, out var animPlayer)) {
                 var factory = context.Factory;
                 animPlayer = factory.CreateAnimPlayer(winAnimName, self);
-                animPlayer.SetTarget(tar);
                 animPlayerRepo.Add(key, animPlayer);
             }
 
             animPlayer.EnterPlayining();
+            
+            if (tar != null) {
+                animPlayer.SetTarget(tar);
+            }
         }
 
         public void SetAnimLoopType(GameObject self, string winAnimName, WinAnimLoopType loopType) {
@@ -52,6 +56,72 @@ namespace ZeroWin {
             }
 
             animPlayer.SetLoopType(loopType);
+        }
+
+        public void PauseAim(GameObject self, string winAnimName) {
+            var animPlayerRepo = context.AnimPlayerRepo;
+            var key = self.GetInstanceID();
+            if (!animPlayerRepo.TryGet(key, winAnimName, out var animPlayer)) {
+                WinLogger.LogWarning($"动画播放器不存在 名称 {winAnimName}  key {key}");
+                return;
+            }
+
+            animPlayer.EnterPause();
+        }
+
+        public void ResumeAnim(GameObject self, string winAnimName) {
+            var animPlayerRepo = context.AnimPlayerRepo;
+            var key = self.GetInstanceID();
+            if (!animPlayerRepo.TryGet(key, winAnimName, out var animPlayer)) {
+                WinLogger.LogWarning($"动画播放器不存在 名称 {winAnimName}  key {key}");
+                return;
+            }
+
+            animPlayer.ResumeAnim();
+        }
+
+        public void StopAnim(GameObject self, string winAnimName) {
+            var animPlayerRepo = context.AnimPlayerRepo;
+            var key = self.GetInstanceID();
+            if (!animPlayerRepo.TryGet(key, winAnimName, out var animPlayer)) {
+                WinLogger.LogWarning($"动画播放器不存在 名称 {winAnimName}  key {key}");
+                return;
+            }
+
+            animPlayer.EnterStop();
+        }
+
+        public void SetUseCustomOffsetAngle(GameObject self, string winAnimName, bool useCustomOffsetAngle) {
+            var animPlayerRepo = context.AnimPlayerRepo;
+            var key = self.GetInstanceID();
+            if (!animPlayerRepo.TryGet(key, winAnimName, out var animPlayer)) {
+                WinLogger.LogWarning($"动画播放器不存在 名称 {winAnimName}  key {key}");
+                return;
+            }
+
+            animPlayer.SetUseCustomOffsetAngle(useCustomOffsetAngle);
+        }
+
+        public void SetTarget(GameObject self, string winAnimName, GameObject target) {
+            var animPlayerRepo = context.AnimPlayerRepo;
+            var key = self.GetInstanceID();
+            if (!animPlayerRepo.TryGet(key, winAnimName, out var animPlayer)) {
+                WinLogger.LogWarning($"动画播放器不存在 名称 {winAnimName}  key {key}");
+                return;
+            }
+
+            animPlayer.SetTarget(target);
+        }
+
+        public void SetEndAction(GameObject self, string winAnimName, Action action) {
+            var animPlayerRepo = context.AnimPlayerRepo;
+            var key = self.GetInstanceID();
+            if (!animPlayerRepo.TryGet(key, winAnimName, out var animPlayer)) {
+                WinLogger.LogWarning($"动画播放器不存在 名称 {winAnimName}  key {key}");
+                return;
+            }
+
+            animPlayer.SetEndAction(action);
         }
 
     }

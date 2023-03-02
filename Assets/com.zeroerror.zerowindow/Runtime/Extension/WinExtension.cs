@@ -105,52 +105,49 @@ namespace ZeroWin.Extension {
 
         #region [Anim]
 
-        public static void PlayAnim(string winAnimName, GameObject self) {
+        public static void Anim_Play(GameObject self, string winAnimName) {
             var aniDomain = winContext.WinAnimDomain;
             aniDomain.PlayAnim(winAnimName, self);
         }
 
-        public static void PlayAnimWithTarget(string winAnimName, GameObject self, GameObject tar) {
+        public static void Anim_PlayWithTarget(GameObject self, string winAnimName, GameObject tar) {
             var aniDomain = winContext.WinAnimDomain;
             aniDomain.PlayAnimWithTarget(self, winAnimName, tar);
         }
 
-        public static void SetAnimLoopType(GameObject self, string winAnimName, WinAnimLoopType loopType) {
+        public static void Anim_SetLoopType(GameObject self, string winAnimName, WinAnimLoopType loopType) {
             var aniDomain = winContext.WinAnimDomain;
             aniDomain.SetAnimLoopType(self, winAnimName, loopType);
         }
 
-        public static void PauseAnim(GameObject self, string winAnimName) {
-            var animPlayerRepo = winContext.AnimPlayerRepo;
-            var key = self.GetInstanceID();
-            if (!animPlayerRepo.TryGet(key, winAnimName, out var animPlayer)) {
-                WinLogger.LogWarning($"动画播放器不存在 名称 {winAnimName}  key {key}");
-                return;
-            }
-
-            animPlayer.EnterPause();
+        public static void Anim_Pause(GameObject self, string winAnimName) {
+            var aniDomain = winContext.WinAnimDomain;
+            aniDomain.PauseAim(self, winAnimName);
         }
 
-        public static void ResumeAnim(GameObject self, string winAnimName) {
-            var animPlayerRepo = winContext.AnimPlayerRepo;
-            var key = self.GetInstanceID();
-            if (!animPlayerRepo.TryGet(key, winAnimName, out var animPlayer)) {
-                WinLogger.LogWarning($"动画播放器不存在 名称 {winAnimName}  key {key}");
-                return;
-            }
-
-            animPlayer.ResumeAnim();
+        public static void Anim_Resume(GameObject self, string winAnimName) {
+            var aniDomain = winContext.WinAnimDomain;
+            aniDomain.ResumeAnim(self, winAnimName);
         }
 
-        public static void StopAnim(GameObject self, string winAnimName) {
-            var animPlayerRepo = winContext.AnimPlayerRepo;
-            var key = self.GetInstanceID();
-            if (!animPlayerRepo.TryGet(key, winAnimName, out var animPlayer)) {
-                WinLogger.LogWarning($"动画播放器不存在 名称 {winAnimName}  key {key}");
-                return;
-            }
+        public static void Anim_Stop(GameObject self, string winAnimName) {
+            var aniDomain = winContext.WinAnimDomain;
+            aniDomain.StopAnim(self, winAnimName);
+        }
 
-            animPlayer.EnterStop();
+        public static void Anim_SetUseCustomOffsetAngle(GameObject self, string winAnimName, bool useCustomOffsetAngle) {
+            var aniDomain = winContext.WinAnimDomain;
+            aniDomain.SetUseCustomOffsetAngle(self, winAnimName, useCustomOffsetAngle);
+        }
+
+        public static void Anim_SetTarget(GameObject self, string winAnimName, GameObject target) {
+            var aniDomain = winContext.WinAnimDomain;
+            aniDomain.SetTarget(self, winAnimName, target);
+        }
+
+        public static void Aim_SetEndAction(GameObject self, string winAnimName, Action animEndAction) {
+            var aniDomain = winContext.WinAnimDomain;
+            aniDomain.SetEndAction(self, winAnimName, animEndAction);
         }
 
         #endregion

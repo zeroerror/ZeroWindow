@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using ZeroWin.Generic;
+using ZeroWin.Logger;
 
 namespace ZeroWin {
 
@@ -9,13 +11,16 @@ namespace ZeroWin {
         public string AnimName => animName;
         public void SetAnimName(string animName) => this.animName = animName;
 
+        RectTransformModel beforeModel;
+        RectTransformModel tarOffsetModel;
+
         GameObject self;
         public void SetSelt(GameObject self) => this.self = self;
 
-        RectTransformModel beforeModel;
-
         GameObject tar;
-        public void SetTarget(GameObject tar) => this.tar = tar;
+
+        Action endAction;
+        public void SetEndAction(Action endAction) => this.endAction = endAction;
 
         WinAnimFSMState state;
         public WinAnimFSMState State => state;
@@ -44,20 +49,25 @@ namespace ZeroWin {
 
         void PlayAnim(float dt) {
             var duration = animModel.duration;
-            var offset_pos = animModel.offsetModel.pos;
-            var offsetAngleZ = animModel.offsetModel.angleZ;
-            var offset_scale = animModel.offsetModel.localScale;
+
+            var offsetModel = tar != null ? tarOffsetModel : beforeModel;
+
+            var offset_pos = offsetModel.pos;
+            var offsetAngleZ = animModel.usedCustomOffsetAngle ? animModel.customOffsetAngle : offsetModel.angle;
+            var offset_scale = offsetModel.localScale;
+
+
             var animCurve_pos = animModel.animCurve_pos;
-            var animCurve_angleZ = animModel.animCurve_angleZ;
+            var animCurve_angle = animModel.animCurve_angle;
             var animCurve_scale = animModel.animCurve_scale;
 
             var timeProportion = resTime / duration;
             float curveValue_pos = animCurve_pos.Evaluate(timeProportion);
-            float curveValue_angle = animCurve_angleZ.Evaluate(timeProportion);
+            float curveValue_angle = animCurve_angle.Evaluate(timeProportion);
             float curveValue_scale = animCurve_scale.Evaluate(timeProportion);
 
             var curPos = curveValue_pos * offset_pos + beforeModel.pos;
-            var curAngle = curveValue_angle * offsetAngleZ + beforeModel.angleZ;
+            var curAngle = curveValue_angle * offsetAngleZ + beforeModel.angle;
             var curScale = curveValue_scale * offset_scale + beforeModel.localScale;
 
             self.transform.position = curPos;
@@ -69,6 +79,7 @@ namespace ZeroWin {
             if (resTime > duration) {
                 resTime = 0;
                 RefreshStateEveryPeriod();
+                endAction?.Invoke();
             }
         }
 
@@ -96,10 +107,21 @@ namespace ZeroWin {
 
         void ResetToBefore() {
             self.transform.position = beforeModel.pos;
-            self.transform.eulerAngles = new Vector3(0, 0, beforeModel.angleZ);
+            self.transform.eulerAngles = new Vector3(0, 0, beforeModel.angle);
             self.transform.localScale = beforeModel.localScale;
         }
 
+        public void SetTarget(GameObject tar) {
+            this.tar = tar;
+            tarOffsetModel.pos = (Vector2)tar.transform.position - beforeModel.pos;
+            tarOffsetModel.angle = tar.transform.eulerAngles.z - beforeModel.angle;
+            tarOffsetModel.localScale = (Vector2)tar.transform.localScale - beforeModel.localScale;
+            WinLogger.Log($"设置动画目标: {tar.name} {tarOffsetModel}");
+        }
+
+        public void SetUseCustomOffsetAngle(bool usedCustomOffsetAngle) {
+            animModel.usedCustomOffsetAngle = usedCustomOffsetAngle;
+        }
 
         #region [FSM]
 
