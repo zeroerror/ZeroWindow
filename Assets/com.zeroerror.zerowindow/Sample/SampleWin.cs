@@ -20,8 +20,8 @@ namespace ZeroWin.Sample {
         protected override void OnCreate() {
             WinLogger.Log($"{nameof(SampleWin)}: OnCreate");
 
-            WinExtension.OnPointerDown(gameObject, "btn", OnPointerDown, "Hello World", 123);
-            WinExtension.OnPointerDrag(gameObject, "btn", OnPointerDrag, "Hello World Draging------", 123);
+            WinExtension.OnPointerDown(gameObject, "btn", OnPointerDown, "This is a string", 123);
+            WinExtension.OnPointerDrag(gameObject, "btn", OnPointerDrag, "This is another string", 456);
 
             aniName = "111";
             anim = transform.Find("anim").gameObject;

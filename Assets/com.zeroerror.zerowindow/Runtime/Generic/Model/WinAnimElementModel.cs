@@ -9,30 +9,29 @@ namespace ZeroWin.Generic {
 
         public RectTransformModel beforeTrans;
 
-        public RectTransform selfTrans;
-        public RectTransform tarTrans;
+        [Header("起点")] public RectTransform selfTrans;
+        [Header("目标")] public RectTransform tarTrans;
 
-        [Header("使用自定义旋转角度")]
-        public bool usedCustomOffsetAngle;
-        public float customOffsetAngleZ;
+        [Header("使用自定义旋转角度")] public bool usedCustomOffsetAngle;
 
-        public AnimationCurve animCurve_pos;
-        public AnimationCurve animCurve_angle;
-        public AnimationCurve animCurve_scale;
-        public WinAnimLoopType loopType;
-        public string elementName;
-        public float duration;
+        [Header("旋转角度")] public float customOffsetAngleZ;
 
-        float resTime;
-
-        bool isPaused;
-        public bool IsPaused => isPaused;
-        public void SetPause(bool isPause) => this.isPaused = isPause;
+        [Header("位移曲线")] public AnimationCurve animCurve_pos;
+        [Header("旋转曲线")] public AnimationCurve animCurve_angle;
+        [Header("缩放曲线")] public AnimationCurve animCurve_scale;
+        [Header("循环类型")] public WinAnimLoopType loopType;
+        [Header("时长")] public float duration;
+        [Header("片段名称")] public string elementName;
 
         // For Editor Preview
-        WinAnimFSMState animState;
-        public WinAnimFSMState AnimState => animState;
-        public void SetAnimState(WinAnimFSMState state) => animState = state;
+        WinAnimFSMState state;
+        public WinAnimFSMState AnimState => state;
+        public void SetAnimState(WinAnimFSMState state) {
+            this.state = state;
+            Debug.Log("SetAnimState: " + state);
+        }
+
+        float resTime;
 
         public void ResetToBefore() {
             if (!IsSetRight()) {
@@ -43,8 +42,6 @@ namespace ZeroWin.Generic {
             selfTrans.eulerAngles = new Vector3(0, 0, beforeTrans.angle);
             selfTrans.localScale = beforeTrans.localScale;
             resTime = 0;
-            isPaused = false;
-            animState = WinAnimFSMState.Stop;
         }
 
         public void RestoreBeforeTrans() {
@@ -92,7 +89,7 @@ namespace ZeroWin.Generic {
             Vector3 offset_scale = endScale - startScale;
 
             while (true) {
-                while (isPaused) {
+                while (state != WinAnimFSMState.Playing) {
                     yield return null;
                 }
 
@@ -107,6 +104,7 @@ namespace ZeroWin.Generic {
 
                 resTime += Time.deltaTime;
                 resTime = resTime > duration ? 0 : resTime;
+
                 yield return null;
             }
         }

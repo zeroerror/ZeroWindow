@@ -103,6 +103,7 @@ namespace ZeroWin.EditorTool {
 
             GUIStyle style = new GUIStyle("Button");
             style.normal.textColor = Color.green;
+
             if (animState == WinAnimFSMState.Stop && GUILayout.Button(buttonText, style)) {
                 element.RestoreBeforeTrans();
                 element.SetAnimState(WinAnimFSMState.Playing);
@@ -116,21 +117,20 @@ namespace ZeroWin.EditorTool {
             if (animState != WinAnimFSMState.Stop && GUILayout.Button("停止", style)) {
                 element.ResetToBefore();
                 ResetCoroutine();
-                WinLogger.Log($"停止动画 {elementName}");
                 selectedElementName = null;
+                element.SetAnimState(WinAnimFSMState.Stop);
+                WinLogger.Log($"停止动画 {elementName}");
             }
 
             style.normal.textColor = Color.yellow;
             if (animState == WinAnimFSMState.Playing && GUILayout.Button("暂停", style)) {
                 element.SetAnimState(WinAnimFSMState.Pause);
-                element.SetPause(true);
                 WinLogger.Log($"暂停动画 {elementName}");
             }
 
             style.normal.textColor = Color.gray;
             if (animState == WinAnimFSMState.Pause && GUILayout.Button("继续", style)) {
                 element.SetAnimState(WinAnimFSMState.Playing);
-                element.SetPause(false);
                 WinLogger.Log($"继续动画 {elementName}");
             }
 
