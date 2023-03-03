@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using ZeroWin.Extension;
+using ZeroWin.Component;
 using ZeroWin.Generic;
 using ZeroWin.Logger;
 

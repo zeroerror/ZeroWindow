@@ -1,7 +1,7 @@
 using UnityEngine;
 using ZeroWin.Generic;
 
-namespace ZeroWin.Extension {
+namespace ZeroWin.Component {
 
     public class WinAnim : MonoBehaviour {
 

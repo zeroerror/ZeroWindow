@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
 using UnityEngine.EventSystems;
-using ZeroWin.Extension;
+using ZeroWin.Component;
 using ZeroWin.Logger;
 
 namespace ZeroWin.EditorTool {

@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEditor;
-using ZeroWin.Extension;
+using ZeroWin.Component;
 
 namespace ZeroWin.EditorTool {
 

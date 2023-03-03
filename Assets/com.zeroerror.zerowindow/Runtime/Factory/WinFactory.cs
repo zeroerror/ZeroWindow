@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using ZeroWin.Generic;
-using ZeroWin.Extension;
+using ZeroWin.Component;
 using ZeroWin.Logger;
 
 namespace ZeroWin {

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using ZeroWin.Extension;
+using ZeroWin.Component;
 using ZeroWin.Logger;
 
 namespace ZeroWin.Generic {
