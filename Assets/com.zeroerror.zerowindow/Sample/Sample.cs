@@ -7,12 +7,12 @@ namespace ZeroWin.Sample {
 
     public class Sample : MonoBehaviour {
 
-        WinCore windowCore;
         bool isShow;
         bool isInit;
+        WinCore winCore;
 
         void Awake() {
-            windowCore = new WinCore(new Vector2(1920, 1080), "UI");
+            winCore = new WinCore(new Vector2(1920, 1080), "UI");
             Action action = async () => {
                 // Load UI assets
                 AssetLabelReference labelReference = new AssetLabelReference();
@@ -20,10 +20,10 @@ namespace ZeroWin.Sample {
                 var list = await Addressables.LoadAssetsAsync<GameObject>(labelReference, null).Task;
 
                 // Inject UI assets
-                windowCore.Inject(list);
+                winCore.Inject(list);
 
                 // Show UI
-                SampleWin sampleUI = windowCore.API.Show("SampleWin", "Default") as SampleWin;
+                SampleWin sampleUI = winCore.API.Show("SampleWin", "Default") as SampleWin;
                 isShow = true;
 
                 isInit = true;
@@ -38,20 +38,20 @@ namespace ZeroWin.Sample {
 
             if (Input.GetKeyDown(KeyCode.Space)) {
                 if (isShow) {
-                    windowCore.API.HideAll();
+                    winCore.API.HideAll();
                     isShow = false;
                 } else {
-                    windowCore.API.ShowAll();
+                    winCore.API.ShowAll();
                     isShow = true;
                 }
             }
 
-            windowCore.Tick(Time.deltaTime);
+            winCore.Tick(Time.deltaTime);
 
         }
 
         void OnDestroy() {
-            windowCore.Dispose();
+            winCore.Dispose();
             ZeroWin.Logger.WinLogger.isEnabled = false;
         }
     }

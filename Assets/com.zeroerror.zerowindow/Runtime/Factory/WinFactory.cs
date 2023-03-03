@@ -44,17 +44,7 @@ namespace ZeroWin {
                 return null;
             }
 
-            WinAnimModel animModel = new WinAnimModel();
-            animModel.offsetModel = animElement.GetOffsetModel();
-            animModel.animCurve_pos = animElement.animCurve_pos;
-            animModel.animCurve_angle = animElement.animCurve_angle;
-            animModel.animCurve_scale = animElement.animCurve_scale;
-            animModel.duration = animElement.duration;
-            animModel.loopType = animElement.loopType;
-            animModel.animName = animElementName;
-            animModel.usedCustomOffsetAngle = animElement.usedCustomOffsetAngle;
-            animModel.customOffsetAngle = animElement.customOffsetAngleZ;
-
+            WinAnimModel animModel = animElement.GetWinAnimModel();
             WinAnimPlayer animPlayer = new WinAnimPlayer(animModel);
             animPlayer.SetSelt(self);
             animPlayer.SetAnimName(animElementName);

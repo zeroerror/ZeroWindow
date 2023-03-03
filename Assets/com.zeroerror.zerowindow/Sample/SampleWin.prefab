@@ -26,7 +26,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1133694927387582409}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
@@ -90,10 +90,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   elements:
-  - selfTrans: {fileID: 803212724448207283}
+  - beforeColor: {x: 1, y: 1, z: 1, w: 1}
+    selfTrans: {fileID: 803212724448207283}
     tarTrans: {fileID: 5237658410608248126}
     usedCustomOffsetAngle: 0
-    customOffsetAngleZ: 360
+    customOffsetAngle: 0
     animCurve_pos:
       serializedVersion: 2
       m_Curve:
@@ -166,9 +167,96 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-    loopType: 0
-    duration: 1
+    animCurve_color:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.11545646
+        value: 1.3827597
+        inSlope: -0.9040076
+        outSlope: -0.9040076
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.1136577
+      - serializedVersion: 3
+        time: 0.25633508
+        value: 0.59178245
+        inSlope: 3.70466
+        outSlope: 3.70466
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.18777281
+      - serializedVersion: 3
+        time: 0.31368485
+        value: 1.3474736
+        inSlope: -10.664888
+        outSlope: -10.664888
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.045054086
+      - serializedVersion: 3
+        time: 0.4579977
+        value: 0.57837886
+        inSlope: 1.8072668
+        outSlope: 1.8072668
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.3329519
+        outWeight: 1
+      - serializedVersion: 3
+        time: 0.48451942
+        value: 1.3415256
+        inSlope: 4.2366467
+        outSlope: 4.2366467
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 1
+        outWeight: 0.52807724
+      - serializedVersion: 3
+        time: 0.6589234
+        value: 0.5792305
+        inSlope: 0.57901496
+        outSlope: 0.57901496
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.29215637
+      - serializedVersion: 3
+        time: 0.783252
+        value: 1.3241925
+        inSlope: -1.335046
+        outSlope: -1.335046
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33525345
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    duration: 4
     elementName: 111
+    loopType: 3
 --- !u!1 &4569774364235373413
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,7 +316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.7673603, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -437,7 +525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.04313922, a: 0.30588236}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -480,7 +568,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6681930476880915291}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
@@ -544,10 +632,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   elements:
-  - selfTrans: {fileID: 7586825088261403300}
+  - beforeColor: {x: 1, y: 1, z: 1, w: 1}
+    selfTrans: {fileID: 7586825088261403300}
     tarTrans: {fileID: 5237658410608248126}
     usedCustomOffsetAngle: 0
-    customOffsetAngleZ: 360
+    customOffsetAngle: 0
     animCurve_pos:
       serializedVersion: 2
       m_Curve:
@@ -620,9 +709,33 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-    loopType: 0
+    animCurve_color:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     duration: 1
     elementName: 111
+    loopType: 3
 --- !u!1 &7595951298489966556
 GameObject:
   m_ObjectHideFlags: 0
@@ -763,7 +876,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -839,7 +952,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.19758391, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
