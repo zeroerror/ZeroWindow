@@ -10,7 +10,8 @@ namespace ZeroWin.Sample {
 
         string aniName;
 
-        GameObject anim;
+        GameObject anim1;
+        GameObject anim2;
         GameObject btn;
         GameObject img1;
         GameObject img2;
@@ -24,7 +25,8 @@ namespace ZeroWin.Sample {
             WinExtension.OnPointerDrag(gameObject, "btn", OnPointerDrag, "This is another string", 456);
 
             aniName = "111";
-            anim = transform.Find("anim").gameObject;
+            anim1 = transform.Find("anim1").gameObject;
+            anim2 = transform.Find("anim2").gameObject;
             btn = transform.Find("btn").gameObject;
             img1 = transform.Find("img1").gameObject;
             img2 = transform.Find("img2").gameObject;
@@ -33,13 +35,15 @@ namespace ZeroWin.Sample {
         }
 
         protected override void OnShow() {
-            WinExtension.Anim_PlayWithTarget(anim, aniName, img1);
+            WinExtension.Anim_PlayWithTarget(anim1, aniName, img1);
+            WinExtension.Anim_SetLoopType(anim1, aniName, WinAnimLoopType.Loop);
+            WinExtension.Aim_SetEndAction(anim1, aniName, AnimEndAction1);
+            WinExtension.Anim_SetUseCustomOffsetAngle(anim1, aniName, false);
 
-            WinExtension.Anim_SetLoopType(anim, aniName, WinAnimLoopType.Loop);
-
-            WinExtension.Aim_SetEndAction(anim, aniName, AnimEndAction);
-
-            WinExtension.Anim_SetUseCustomOffsetAngle(anim, aniName, false);
+            WinExtension.Anim_PlayWithTarget(anim2, aniName, img1);
+            WinExtension.Anim_SetLoopType(anim2, aniName, WinAnimLoopType.Loop);
+            WinExtension.Aim_SetEndAction(anim2, aniName, AnimEndAction2);
+            WinExtension.Anim_SetUseCustomOffsetAngle(anim2, aniName, false);
         }
 
         protected override void OnHide() {
@@ -53,20 +57,40 @@ namespace ZeroWin.Sample {
             WinLogger.Log($"OnPointer Drag ------- args {args[0]} {args[1]}");
         }
 
-        void AnimEndAction() {
-            WinExtension.Anim_SetTarget(anim, aniName, img2);
+        void AnimEndAction1() {
+            WinExtension.Anim_SetTarget(anim1, aniName, img2);
 
-            WinExtension.Aim_SetEndAction(anim, aniName, () => {
-                WinExtension.Anim_SetTarget(anim, aniName, img3);
+            WinExtension.Aim_SetEndAction(anim1, aniName, () => {
+                WinExtension.Anim_SetTarget(anim1, aniName, img3);
 
-                WinExtension.Aim_SetEndAction(anim, aniName, () => {
-                    WinExtension.Anim_SetTarget(anim, aniName, img4);
+                WinExtension.Aim_SetEndAction(anim1, aniName, () => {
+                    WinExtension.Anim_SetTarget(anim1, aniName, img4);
 
-                    WinExtension.Aim_SetEndAction(anim, aniName, () => {
-                        WinExtension.Anim_SetTarget(anim, aniName, img1);
-                        
-                        WinExtension.Aim_SetEndAction(anim, aniName, () => {
-                            AnimEndAction();
+                    WinExtension.Aim_SetEndAction(anim1, aniName, () => {
+                        WinExtension.Anim_SetTarget(anim1, aniName, img1);
+
+                        WinExtension.Aim_SetEndAction(anim1, aniName, () => {
+                            AnimEndAction1();
+                        });
+                    });
+                });
+            });
+        }
+
+        void AnimEndAction2() {
+            WinExtension.Anim_SetTarget(anim2, aniName, img2);
+
+            WinExtension.Aim_SetEndAction(anim2, aniName, () => {
+                WinExtension.Anim_SetTarget(anim2, aniName, img3);
+
+                WinExtension.Aim_SetEndAction(anim2, aniName, () => {
+                    WinExtension.Anim_SetTarget(anim2, aniName, img4);
+
+                    WinExtension.Aim_SetEndAction(anim2, aniName, () => {
+                        WinExtension.Anim_SetTarget(anim2, aniName, img1);
+
+                        WinExtension.Aim_SetEndAction(anim2, aniName, () => {
+                            AnimEndAction2();
                         });
                     });
                 });
