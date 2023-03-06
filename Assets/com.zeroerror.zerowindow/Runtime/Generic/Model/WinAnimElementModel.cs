@@ -16,13 +16,16 @@ namespace ZeroWin.Generic {
         [Header("起点")] public RectTransform selfTrans;
         [Header("目标")] public RectTransform tarTrans;
 
-        [Header("使用自定义旋转角度")] public bool usedCustomOffsetAngle;
-        [Header("旋转角度")] public float customOffsetAngle;
-
         [Header("位移曲线")] public AnimationCurve animCurve_pos;
         [Header("旋转曲线")] public AnimationCurve animCurve_angle;
         [Header("缩放曲线")] public AnimationCurve animCurve_scale;
         [Header("RGB曲线")] public AnimationCurve animCurve_color;
+        [Header("法向偏移曲线")] public AnimationCurve animCurve_normalOffset;
+
+        [Header("使用自定义旋转角度")] public bool usedCustomOffsetAngle;
+        [Header("旋转角度")] public float customOffsetAngle;
+
+        [Header("法向偏移基准值")] public float normalBaseValue;
 
         [Header("时长")] public float duration;
         [Header("片段名称")] public string elementName;
@@ -71,6 +74,7 @@ namespace ZeroWin.Generic {
                 return default;
             }
 
+            // OffsetModel
             var startPos = selfTrans.position;
             var endPos = tarTrans.position;
             Vector3 offset_pos = endPos - startPos;
@@ -79,11 +83,16 @@ namespace ZeroWin.Generic {
             var endScale = tarTrans.localScale;
             Vector3 offset_scale = endScale - startScale;
 
+            RectTransformModel offsetModel = new RectTransformModel(offset_pos, customOffsetAngle, offset_scale);
+
+            // WinAnimModel
             WinAnimModel model = new WinAnimModel();
-            model.offsetModel = new RectTransformModel(offset_pos, customOffsetAngle, offset_scale); ;
+            model.offsetModel = offsetModel;
             model.animCurve_pos = animCurve_pos;
             model.animCurve_angle = animCurve_angle;
             model.animCurve_scale = animCurve_scale;
+            model.animCurve_normalOffset = animCurve_normalOffset;
+
             if (selfTrans.TryGetComponent<Image>(out var Image_self)
             && tarTrans.TryGetComponent<Image>(out var Image_tar)) {
                 model.animCurve_color = animCurve_color;
@@ -95,6 +104,7 @@ namespace ZeroWin.Generic {
             model.animName = elementName;
             model.usedCustomOffsetAngle = usedCustomOffsetAngle;
             model.customOffsetAngle = customOffsetAngle;
+            model.normalBaseValue = normalBaseValue;
 
             return model;
         }
@@ -104,6 +114,7 @@ namespace ZeroWin.Generic {
                 yield break;
             }
 
+            // Pos & Angle & Scale
             var startPos = selfTrans.position;
             var startAngleZ = selfTrans.rotation.eulerAngles.z;
             var startScale = selfTrans.localScale;
@@ -112,8 +123,8 @@ namespace ZeroWin.Generic {
             var endAngleZ = tarTrans.rotation.eulerAngles.z;
             var endScale = tarTrans.localScale;
 
-            var offsetAngleZ = usedCustomOffsetAngle ? customOffsetAngle : endAngleZ - startAngleZ;
             Vector3 offset_pos = endPos - startPos;
+            var offsetAngleZ = usedCustomOffsetAngle ? customOffsetAngle : endAngleZ - startAngleZ;
             Vector3 offset_scale = endScale - startScale;
 
             // Color
@@ -131,12 +142,18 @@ namespace ZeroWin.Generic {
             }
             Vector4 offsetColor = endColor - startColor;
 
+            // Normal Offset
+            var dir = offset_pos.normalized;
+            var normalBaseDir = Quaternion.Euler(0, 0, 90) * dir * normalBaseValue;
+
             while (true) {
                 while (state != WinAnimFSMState.Playing) {
                     yield return null;
                 }
 
                 var timeProportion = resTime / duration;
+
+                // Pos & Angle & Scale
                 float curveValue_pos = animCurve_pos.Evaluate(timeProportion);
                 float curveValue_angle = animCurve_angle.Evaluate(timeProportion);
                 float curveValue_scale = animCurve_scale.Evaluate(timeProportion);
@@ -151,6 +168,11 @@ namespace ZeroWin.Generic {
                     Vector4 curColor = curveValue_color * offsetColor + startColor;
                     selfImage.color = curColor;
                 }
+
+                // Normal Offset
+                float curveValue_normalOffset = animCurve_normalOffset.Evaluate(timeProportion);
+                var curNoramOffset = normalBaseDir * curveValue_normalOffset;
+                selfTrans.position += curNoramOffset;
 
                 resTime += Time.deltaTime;
                 resTime = resTime > duration ? 0 : resTime;

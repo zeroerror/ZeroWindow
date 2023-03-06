@@ -93,8 +93,6 @@ MonoBehaviour:
   - beforeColor: {x: 1, y: 1, z: 1, w: 1}
     selfTrans: {fileID: 803212724448207283}
     tarTrans: {fileID: 5237658410608248126}
-    usedCustomOffsetAngle: 0
-    customOffsetAngle: 0
     animCurve_pos:
       serializedVersion: 2
       m_Curve:
@@ -254,6 +252,42 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    animCurve_normalOffset:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0.008309311
+        value: 0.023843382
+        inSlope: 1.6817476
+        outSlope: 1.6817476
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.43718994
+        value: 0.74511236
+        inSlope: 0.16387963
+        outSlope: 0.16387963
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.98749924
+        value: 0
+        inSlope: -1.3539883
+        outSlope: -1.3539883
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    usedCustomOffsetAngle: 0
+    customOffsetAngle: 0
+    normalBaseValue: 500
     duration: 4
     elementName: 111
     loopType: 3
@@ -634,9 +668,7 @@ MonoBehaviour:
   elements:
   - beforeColor: {x: 1, y: 1, z: 1, w: 1}
     selfTrans: {fileID: 7586825088261403300}
-    tarTrans: {fileID: 5237658410608248126}
-    usedCustomOffsetAngle: 0
-    customOffsetAngle: 0
+    tarTrans: {fileID: 6887119873113864587}
     animCurve_pos:
       serializedVersion: 2
       m_Curve:
@@ -733,7 +765,43 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    duration: 1
+    animCurve_normalOffset:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0.008309311
+        value: 0.023843382
+        inSlope: 1.6817476
+        outSlope: 1.6817476
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.43718994
+        value: 0.74511236
+        inSlope: 0.16387963
+        outSlope: 0.16387963
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.98749924
+        value: 0
+        inSlope: -1.3539883
+        outSlope: -1.3539883
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    usedCustomOffsetAngle: 0
+    customOffsetAngle: 0
+    normalBaseValue: 300
+    duration: 2
     elementName: 111
     loopType: 3
 --- !u!1 &7595951298489966556

@@ -61,30 +61,10 @@ namespace ZeroWin {
 
         void PlayAnim(float dt) {
             var duration = animModel.duration;
+            var timeProportion = resTime / duration;
 
             bool hasTar = tar != null;
             var offsetModel = hasTar ? toTarOffsetModel : selfModel;
-
-            var offset_pos = offsetModel.pos;
-            var offsetAngleZ = animModel.usedCustomOffsetAngle ? animModel.customOffsetAngle : offsetModel.angle;
-            var offset_scale = offsetModel.localScale;
-
-            var animCurve_pos = animModel.animCurve_pos;
-            var animCurve_angle = animModel.animCurve_angle;
-            var animCurve_scale = animModel.animCurve_scale;
-
-            var timeProportion = resTime / duration;
-            float curveValue_pos = animCurve_pos.Evaluate(timeProportion);
-            float curveValue_angle = animCurve_angle.Evaluate(timeProportion);
-            float curveValue_scale = animCurve_scale.Evaluate(timeProportion);
-
-            var curPos = curveValue_pos * offset_pos + selfModel.pos;
-            var curAngle = curveValue_angle * offsetAngleZ + selfModel.angle;
-            var curScale = curveValue_scale * offset_scale + selfModel.localScale;
-
-            self.transform.position = curPos;
-            self.transform.eulerAngles = new Vector3(0, 0, curAngle);
-            self.transform.localScale = curScale;
 
             // Color
             if (hasImage_self && hasImage_tar) {
@@ -99,8 +79,36 @@ namespace ZeroWin {
                 selfImage.color = curColor;
             }
 
-            resTime += dt;
+            // Pos & Angle & Scale
+            var offset_pos = offsetModel.pos;
+            var offsetAngleZ = animModel.usedCustomOffsetAngle ? animModel.customOffsetAngle : offsetModel.angle;
+            var offset_scale = offsetModel.localScale;
 
+            var animCurve_pos = animModel.animCurve_pos;
+            var animCurve_angle = animModel.animCurve_angle;
+            var animCurve_scale = animModel.animCurve_scale;
+
+            float curveValue_pos = animCurve_pos.Evaluate(timeProportion);
+            float curveValue_angle = animCurve_angle.Evaluate(timeProportion);
+            float curveValue_scale = animCurve_scale.Evaluate(timeProportion);
+
+            var curPos = curveValue_pos * offset_pos + selfModel.pos;
+            var curAngle = curveValue_angle * offsetAngleZ + selfModel.angle;
+            var curScale = curveValue_scale * offset_scale + selfModel.localScale;
+
+            // Normal Offset
+            Vector2 normalBaseDir = Quaternion.Euler(0, 0, 90) * offset_pos.normalized * animModel.normalBaseValue;
+            var animCurve_normalOffset = animModel.animCurve_normalOffset;
+            float curveValue_normalOffset = animCurve_normalOffset.Evaluate(timeProportion);
+            var curNoramOffset = normalBaseDir * curveValue_normalOffset;
+            curPos += curNoramOffset;
+
+            // Finnal Set
+            self.transform.position = curPos;
+            self.transform.eulerAngles = new Vector3(0, 0, curAngle);
+            self.transform.localScale = curScale;
+
+            resTime += dt;
             if (resTime > duration) {
                 resTime = 0;
                 RefreshStateEveryPeriod();
@@ -134,7 +142,7 @@ namespace ZeroWin {
             self.transform.position = selfModel.pos;
             self.transform.eulerAngles = new Vector3(0, 0, selfModel.angle);
             self.transform.localScale = selfModel.localScale;
-            if(hasImage_self){
+            if (hasImage_self) {
                 selfImage.color = selfColor;
             }
         }
