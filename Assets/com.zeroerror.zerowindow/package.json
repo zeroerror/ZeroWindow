@@ -1,0 +1,19 @@
+{
+    "name": "com.zeroerror.zerowindow",
+    "version": "0.0.1",
+    "description": "Unity UI 框架, 用于快速开发游戏UI",
+    "displayName": "ZeroWindow",
+    "unity": "2021.3",
+    "author": {
+        "name": "zeroerror"
+    },
+    "changelogUrl": "",
+    "dependencies": {},
+    "documentationUrl": "",
+    "hideInEditor": false,
+    "keywords": [],
+    "license": "",
+    "licensesUrl": "",
+    "samples": [],
+    "unityRelease": "f1c1"
+}
