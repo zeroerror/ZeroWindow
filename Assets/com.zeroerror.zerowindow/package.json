@@ -1,6 +1,6 @@
 {
     "name": "com.zeroerror.zerowindow",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "description": "Unity UI 框架, 用于快速开发游戏UI",
     "displayName": "ZeroWindow",
     "unity": "2021.3",
